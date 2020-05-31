@@ -42,5 +42,41 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  vpl a(n),b(n);
+  REP(i,n)cin>>a[i].FI>>a[i].SE;
+  REP(i,n){
+    b[i].FI=a[i].SE;
+    b[i].SE=-a[i].FI;
+  }
+
+  sort(ALL(a));
+
+  if(n%2==1){
+    ll cnt=0;
+    ll la=-1,ra=-1,lb=-1,rb=-1;
+    REP(i,n){
+      if(ra!=-1)
+        ra=min(a[i].FI,ra);
+      if(i==n/2){
+        la=a[i].FI;
+        ra=a[i].SE;
+      }
+      cnt++;
+    }
+
+   REP(i,n){
+      if(ra!=-1)
+        ra=min(b[i].FI,ra);
+      if(i==n/2){
+        la=a[i].FI;
+        ra=a[i].SE;
+      }
+      cnt++;
+    }
+
+  }
+
 }
 

@@ -42,5 +42,27 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  ll ans=0;
+  ll x=n;
+  for(ll i=2; i*i<=n; i++){
+    ll cnt=0;
+    while(x%i==0){
+      x/=i;
+      cnt++;
+    }
+
+    ll maxk=0;
+    for(ll k=1; k<=40; k++){
+      if(k*(k+1)/2<=cnt)
+        maxk=k;
+    }
+    ans+=maxk;
+  }
+  if(x!=1)
+    ans++;
+
+  cout<<ans<<endl;
 }
 

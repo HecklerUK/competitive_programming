@@ -42,5 +42,29 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  vll a(n);
+  REP(i,n)cin>>a[i];
+
+  REP(i,n){
+    if(a[i]==0){
+      cout<<0<<endl;
+      return 0;
+    }
+  }
+
+  ll ans=1;
+  const ll lim=1e18;
+  REP(i,n){
+    if(lim/a[i]<ans){
+      cout<<-1<<endl;
+      return 0;
+    }
+
+    ans*=a[i];
+  }
+
+  cout<<ans<<endl;
 }
 

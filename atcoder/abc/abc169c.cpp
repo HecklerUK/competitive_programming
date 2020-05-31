@@ -42,5 +42,10 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll a;
+  ld b;
+  cin>>a>>b;
+  ll ans=a*b;
+  cout<<ans<<endl;
 }
 

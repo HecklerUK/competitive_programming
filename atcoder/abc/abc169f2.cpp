@@ -51,14 +51,17 @@ int main(){
   vll a(n);
   REP(i,n)cin>>a[i];
 
+
   dp[0][0]=1;
   REP(i,n){
+    //F(i-1)+1
+    dp[i+1][0]+=1;
     for(ll j=0; j<MAXS; j++)
-      dp[i+1][j]=2*dp[i][j]%MOD;
+      dp[i+1][j]=dp[i][j];
 
+    //(1+x(i))
     for(ll j=0; j+a[i]<=MAXS-1; j++)
       dp[i+1][j+a[i]]=(dp[i+1][j+a[i]]+dp[i][j])%MOD;
-
   }
 
   ll ans=dp[n][s];
