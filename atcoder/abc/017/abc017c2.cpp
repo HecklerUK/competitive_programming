@@ -38,50 +38,29 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-const ll MAX_N=1e5+1;
-vvll a(MAX_N);
-vvll b(MAX_N);
-vll memo(MAX_N,-1);
-
-ll dfs(ll cur){
-  if(a[cur].size()==0)
-    return memo[cur]=0;
-
-  if(memo[cur]>=0)
-    return memo[cur];
-
-  priority_queue<ll> que;
-  for(auto g:a[cur]){
-    que.push(dfs(g));
-  }
-
-  ll cnt=0;
-  ll res=0;
-  while(!que.empty()){
-    res=max(res,cnt+que.top());
-    que.pop();
-    cnt++;
-  }
-
-  res++;
-  memo[cur]=res;
-  return res;
-}
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
-  REP(i,n-1){
-    ll x;
-    cin>>x;
-    x--;
-    a[x].push_back(i+1);
+  ll n,m;
+  cin>>n>>m;
+  vll l(n),r(n),s(n);
+  REP(i,n)cin>>l[i]>>r[i]>>s[i];
+
+  vll imos(m+1,0);
+  REP(i,n){
+    l[i]--;
+    r[i]--;
+    imos[0]+=s[i];
+    imos[l[i]]-=s[i];
+    imos[r[i]+1]+=s[i];
+    imos[m]-=s[i];
   }
 
-  ll ans=dfs(0);
+  REP(i,m)imos[i+1]+=imos[i];
+  ll ans=0;
+  REP(i,m+1)ans=max(ans,imos[i]);
   cout<<ans<<endl;
+
 }
 
