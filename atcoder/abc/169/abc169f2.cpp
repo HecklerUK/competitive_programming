@@ -34,65 +34,37 @@ typedef vector<vll> vvll;
 const int inf = 1e9;
 const ll linf = 1LL << 50;
 const double eps = 1e-10;
-const int MOD = 1e9 + 7;
+const int MOD = 998244353;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
 
-ll mpow(ll m, ll p){
-  ll power = m;
-  ll res = 1;
-  while(p>0){
-    if(p&1)
-      res = res*power%MOD;
-    power = (power*power)%MOD;
-    p /= 2;
-  }
-
-  return res;
-}
-
-ll mod_inv(ll m){
-  return mpow(m, MOD-2);
-}
-
-struct COM{
-  vll fact, fact_inv;
-  COM(ll n): fact(n+1,1), fact_inv(n+1,1){
-    for(ll i=1; i<=n; i++)
-      fact[i] = fact[i-1]*i%MOD;
-
-    fact_inv[n] = mod_inv(fact[n]);
-    for(ll i=n; i>=1; i--)
-      fact_inv[i-1] = fact_inv[i]*i%MOD;
-  }
-
-  ll calc(ll n, ll k){
-    if(k<0 || n<k)
-      return 0;
-    ll res = fact[n]*fact_inv[n-k]%MOD*fact_inv[k]%MOD;
-    return res;
-  }
-};
-
+const ll MAXN=3001;
+const ll MAXS=3001;
+ll dp[MAXN][MAXS];
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,m,k;
-  cin>>n>>m>>k;
+  ll n,s;
+  cin>>n>>s;
+  vll a(n);
+  REP(i,n)cin>>a[i];
 
-  COM com(n*m);
-  ll ans2=0;
-  for(ll d=1; d<=m-1; d++){
-    ll cost=d*n*n*(m-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
-  }
-  for(ll d=1; d<=n-1; d++){
-    ll cost=d*m*m*(n-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
+
+  dp[0][0]=1;
+  REP(i,n){
+    //F(i-1)+1
+    dp[i+1][0]+=1;
+    for(ll j=0; j<MAXS; j++)
+      dp[i+1][j]=dp[i][j];
+
+    //(1+x(i))
+    for(ll j=0; j+a[i]<=MAXS-1; j++)
+      dp[i+1][j+a[i]]=(dp[i+1][j+a[i]]+dp[i][j])%MOD;
   }
 
-  cout<<ans2<<endl;
+  ll ans=dp[n][s];
+  cout<<ans<<endl;
 }
 

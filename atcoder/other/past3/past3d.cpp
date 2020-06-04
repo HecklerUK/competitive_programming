@@ -38,61 +38,49 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-
-ll mpow(ll m, ll p){
-  ll power = m;
-  ll res = 1;
-  while(p>0){
-    if(p&1)
-      res = res*power%MOD;
-    power = (power*power)%MOD;
-    p /= 2;
-  }
-
-  return res;
-}
-
-ll mod_inv(ll m){
-  return mpow(m, MOD-2);
-}
-
-struct COM{
-  vll fact, fact_inv;
-  COM(ll n): fact(n+1,1), fact_inv(n+1,1){
-    for(ll i=1; i<=n; i++)
-      fact[i] = fact[i-1]*i%MOD;
-
-    fact_inv[n] = mod_inv(fact[n]);
-    for(ll i=n; i>=1; i--)
-      fact_inv[i-1] = fact_inv[i]*i%MOD;
-  }
-
-  ll calc(ll n, ll k){
-    if(k<0 || n<k)
-      return 0;
-    ll res = fact[n]*fact_inv[n-k]%MOD*fact_inv[k]%MOD;
-    return res;
-  }
-};
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,m,k;
-  cin>>n>>m>>k;
+  ll n;
+  cin>>n;
+  vector<string> s(5);
+  REP(i,5)cin>>s[i];
 
-  COM com(n*m);
-  ll ans2=0;
-  for(ll d=1; d<=m-1; d++){
-    ll cost=d*n*n*(m-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
-  }
-  for(ll d=1; d<=n-1; d++){
-    ll cost=d*m*m*(n-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
+  vector<vector<string>> num(10,vector<string>(5));
+  vector<string> numdef(5);
+  numdef[0]=".###..#..###.###.#.#.###.###.###.###.###.";
+  numdef[1]=".#.#.##....#...#.#.#.#...#.....#.#.#.#.#.";
+  numdef[2]=".#.#..#..###.###.###.###.###...#.###.###.";
+  numdef[3]=".#.#..#..#.....#...#...#.#.#...#.#.#...#.";
+  numdef[4]=".###.###.###.###...#.###.###...#.###.###.";
+  REP(i,10){
+    REP(j,5)
+      num[i][j]=numdef[j].substr(4*i+1,3);
   }
 
-  cout<<ans2<<endl;
+  vll ans;
+  REP(i,n){
+    string t[5];
+    REP(j,5)
+      t[j]=s[j].substr(4*i+1,3);
+
+    REP(k,10){
+      bool flag=true;
+      REP(j,5){
+        if(t[j]!=num[k][j])
+          flag=false;
+      }
+
+      if(flag){
+        ans.push_back(k);
+        break;
+      }
+    }
+  }
+
+  REP(i,n)cout<<ans[i];
+  cout<<endl;
+
 }
 

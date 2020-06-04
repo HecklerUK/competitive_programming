@@ -37,62 +37,55 @@ const double eps = 1e-10;
 const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
+const ll LLMAX=9223372036854775807;
 
+map<ll,ll> m;
 
-ll mpow(ll m, ll p){
-  ll power = m;
-  ll res = 1;
-  while(p>0){
-    if(p&1)
-      res = res*power%MOD;
-    power = (power*power)%MOD;
-    p /= 2;
-  }
+ll dfs(ll value, ll a, ll b, ll c, ll d){
+  if(m[value]!=0)
+    return m[value];
+  if(value==0)
+    return 0;
+  if(value==1)
+    return d;
 
+  ll res=LLINF;
+  if(value<res/d)
+    res=d*value;
+
+  ll l2=value/2*2;
+  ll r2=(value+1)/2*2;
+  ll l3=value/3*3;
+  ll r3=(value+2)/3*3;
+  ll l5=value/5*5;
+  ll r5=(value+4)/5*5;
+  res=min(res,dfs(l2/2,a,b,c,d)+(value-l2)*d+a);
+  res=min(res,dfs(r2/2,a,b,c,d)+(r2-value)*d+a);
+  res=min(res,dfs(l3/3,a,b,c,d)+(value-l3)*d+b);
+  res=min(res,dfs(r3/3,a,b,c,d)+(r3-value)*d+b);
+  res=min(res,dfs(l5/5,a,b,c,d)+(value-l5)*d+c);
+  res=min(res,dfs(r5/5,a,b,c,d)+(r5-value)*d+c);
+
+  m[value]=res;
   return res;
+
 }
 
-ll mod_inv(ll m){
-  return mpow(m, MOD-2);
-}
 
-struct COM{
-  vll fact, fact_inv;
-  COM(ll n): fact(n+1,1), fact_inv(n+1,1){
-    for(ll i=1; i<=n; i++)
-      fact[i] = fact[i-1]*i%MOD;
-
-    fact_inv[n] = mod_inv(fact[n]);
-    for(ll i=n; i>=1; i--)
-      fact_inv[i-1] = fact_inv[i]*i%MOD;
-  }
-
-  ll calc(ll n, ll k){
-    if(k<0 || n<k)
-      return 0;
-    ll res = fact[n]*fact_inv[n-k]%MOD*fact_inv[k]%MOD;
-    return res;
-  }
-};
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,m,k;
-  cin>>n>>m>>k;
+  ll t;
+  cin>>t;
+  vll n(t),a(t),b(t),c(t),d(t);
+  REP(i,t)cin>>n[i]>>a[i]>>b[i]>>c[i]>>d[i];
 
-  COM com(n*m);
-  ll ans2=0;
-  for(ll d=1; d<=m-1; d++){
-    ll cost=d*n*n*(m-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
+  REP(i,t){
+    m.clear();
+    ll ans=dfs(n[i],a[i],b[i],c[i],d[i]);
+    cout<<ans<<endl;
   }
-  for(ll d=1; d<=n-1; d++){
-    ll cost=d*m*m*(n-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
-  }
-
-  cout<<ans2<<endl;
 }
 

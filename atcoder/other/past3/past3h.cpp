@@ -38,61 +38,38 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-
-ll mpow(ll m, ll p){
-  ll power = m;
-  ll res = 1;
-  while(p>0){
-    if(p&1)
-      res = res*power%MOD;
-    power = (power*power)%MOD;
-    p /= 2;
-  }
-
-  return res;
-}
-
-ll mod_inv(ll m){
-  return mpow(m, MOD-2);
-}
-
-struct COM{
-  vll fact, fact_inv;
-  COM(ll n): fact(n+1,1), fact_inv(n+1,1){
-    for(ll i=1; i<=n; i++)
-      fact[i] = fact[i-1]*i%MOD;
-
-    fact_inv[n] = mod_inv(fact[n]);
-    for(ll i=n; i>=1; i--)
-      fact_inv[i-1] = fact_inv[i]*i%MOD;
-  }
-
-  ll calc(ll n, ll k){
-    if(k<0 || n<k)
-      return 0;
-    ll res = fact[n]*fact_inv[n-k]%MOD*fact_inv[k]%MOD;
-    return res;
-  }
-};
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,m,k;
-  cin>>n>>m>>k;
-
-  COM com(n*m);
-  ll ans2=0;
-  for(ll d=1; d<=m-1; d++){
-    ll cost=d*n*n*(m-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
+  ll n,l;
+  cin>>n>>l;
+  vll h(l+5,0);
+  REP(i,n){
+    ll x;
+    cin>>x;
+    h[x]=1;
   }
-  for(ll d=1; d<=n-1; d++){
-    ll cost=d*m*m*(n-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
+  ll t1,t2,t3;
+  cin>>t1>>t2>>t3;
+
+  vll dp(l+5,LLINF);
+  dp[0]=0;
+  REP(i,l){
+    ll t=0;
+    if(h[i]==1)
+      t=t3;
+
+    dp[i+1]=min(dp[i+1],dp[i]+t1+t);
+    dp[i+2]=min(dp[i+2],dp[i]+t1+t2+t);
+    dp[i+4]=min(dp[i+4],dp[i]+t1+3*t2+t);
   }
 
-  cout<<ans2<<endl;
+  ll ans=dp[l];
+  ans=min(ans,dp[l-3]+h[l-3]*t3+t1/2+t2/2*5);
+  ans=min(ans,dp[l-2]+h[l-2]*t3+t1/2+t2/2*3);
+  ans=min(ans,dp[l-1]+h[l-1]*t3+t1/2+t2/2*1);
+
+  cout<<ans<<endl;
 }
 

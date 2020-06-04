@@ -35,64 +35,63 @@ const int inf = 1e9;
 const ll linf = 1LL << 50;
 const double eps = 1e-10;
 const int MOD = 1e9 + 7;
-const int dx[4] = {-1, 0, 1, 0};
-const int dy[4] = {0, -1, 0, 1};
+const int dx[6] = {-1, 0, 1, 0,1,-1};
+const int dy[6] = {0, -1, 0, 1,1,1};
 
+const ll xlim=1000;
+const ll ylim=1000;
+ll preve[2*xlim][2*ylim];
+ll f[2*xlim][2*ylim];
 
-ll mpow(ll m, ll p){
-  ll power = m;
-  ll res = 1;
-  while(p>0){
-    if(p&1)
-      res = res*power%MOD;
-    power = (power*power)%MOD;
-    p /= 2;
-  }
-
-  return res;
-}
-
-ll mod_inv(ll m){
-  return mpow(m, MOD-2);
-}
-
-struct COM{
-  vll fact, fact_inv;
-  COM(ll n): fact(n+1,1), fact_inv(n+1,1){
-    for(ll i=1; i<=n; i++)
-      fact[i] = fact[i-1]*i%MOD;
-
-    fact_inv[n] = mod_inv(fact[n]);
-    for(ll i=n; i>=1; i--)
-      fact_inv[i-1] = fact_inv[i]*i%MOD;
-  }
-
-  ll calc(ll n, ll k){
-    if(k<0 || n<k)
-      return 0;
-    ll res = fact[n]*fact_inv[n-k]%MOD*fact_inv[k]%MOD;
-    return res;
-  }
-};
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,m,k;
-  cin>>n>>m>>k;
+  ll n,x,y;
+  cin>>n>>x>>y;
 
-  COM com(n*m);
-  ll ans2=0;
-  for(ll d=1; d<=m-1; d++){
-    ll cost=d*n*n*(m-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
-  }
-  for(ll d=1; d<=n-1; d++){
-    ll cost=d*m*m*(n-d)%MOD;
-    ans2=(ans2+com.calc(n*m-2,k-2)*cost%MOD)%MOD;
+  REP(i,2*xlim)REP(j,2*ylim)preve[i][j]=0;
+
+  REP(i,n){
+    ll px,py;
+    cin>>px>>py;
+    preve[px+xlim][py+ylim]=1;
   }
 
-  cout<<ans2<<endl;
+  REP(i,2*xlim)REP(j,2*ylim)f[i][j]=LLINF;
+  f[xlim+0][ylim+0]=0;
+
+  queue<pair<ll,pll>> que;
+  que.push(make_pair(0,pll(0,0)));
+  while(!que.empty()){
+    pair<ll,pll> p=que.front();
+    que.pop();
+    ll dist=p.FI;
+    ll px=p.SE.FI;
+    ll py=p.SE.SE;
+    if(f[xlim+px][ylim+py]<dist)
+      continue;
+
+
+    REP(i,6){
+      ll nx=px+dx[i];
+      ll ny=py+dy[i];
+      if(xlim+nx<0 || 2*xlim<=xlim+nx || ylim+ny<0 || 2*ylim<=ylim+ny)
+        continue;
+      if(preve[xlim+nx][ylim+ny]==1)
+        continue;
+      if(f[xlim+nx][ylim+ny]<=dist+1)
+        continue;
+
+      f[xlim+nx][ylim+ny]=dist+1;
+      que.push(make_pair(dist+1,pll(nx,ny)));
+    }
+  }
+
+  if(f[xlim+x][ylim+y]==LLINF)
+    cout<<-1<<endl;
+  else
+    cout<<f[xlim+x][ylim+y]<<endl;
 }
 
