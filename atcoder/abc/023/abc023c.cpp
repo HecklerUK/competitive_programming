@@ -1,14 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
-// types
+
 typedef long long ll;
 typedef long double ld;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef pair<ld,ld> pdd;
- 
-// macros
+typedef vector<ll> vll;
+typedef vector<ld> vld;
+typedef vector<pll> vpl;
+typedef vector<vll> vvll;
+
 #define ALL(a) a.begin(),a.end()
 #define SZ(a) ((int)a.size())
 #define FI first
@@ -21,53 +23,60 @@ typedef pair<ld,ld> pdd;
 #define MP(a,b) make_pair(a,b)
 #define SORT_UNIQUE(c) (sort(c.begin(),c.end()), c.resize(distance(c.begin(),unique(c.begin(),c.end()))))
 #define GET_POS(c,x) (lower_bound(c.begin(),c.end(),x)-c.begin())
+#define yes cout<<"Yes"<<endl
+#define YES cout<<"YES"<<endl
+#define no cout<<"No"<<endl
+#define NO cout<<"NO"<<endl
 #define Decimal fixed<<setprecision(20)
 #define INF 1000000000
 #define LLINF 1000000000000000000LL
- 
-// constants
+
 const int inf = 1e9;
 const ll linf = 1LL << 50;
 const double eps = 1e-10;
-const int mod = 1e9 + 7;
+const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
- 
- 
- 
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  
-  ll R, C, k, n;
-  cin >> R >> C >> k >> n;
-  
-  vector<ll> r(n), c(n);
-  REP(i, n)
-    cin >> r[i] >> c[i];
-  
-  map<ll, ll> r_map, c_map;
-  REP(i, n){
-    r_map[r[i]-1]++;
-    c_map[c[i]-1]++;
+
+  ll r,c,k;
+  cin>>r>>c>>k;
+  ll n;
+  cin>>n;
+  vpl rc(n);
+  REP(i,n){
+    cin>>rc[i].FI>>rc[i].SE;
+    rc[i].FI--;
+    rc[i].SE--;
   }
-  
-  map<ll, ll> band_count_r_map, band_count_c_map;
-  REP(i, R)
-	  band_count_r_map[r_map[i]]++;
-  REP(i, C)
-	  band_count_c_map[c_map[i]]++;
-  
-  ll ans = 0;
-  REP(i, k+1)
-    ans += band_count_r_map[i] * band_count_c_map[k-i];
-  
-  REP(i, n){
-    if(r_map[r[i]-1]+c_map[c[i]-1] == k+1)
-      ans++;
-    if(r_map[r[i]-1]+c_map[c[i]-1] == k)
+
+  vll line(r),column(c);
+  REP(i,n){
+    line[rc[i].FI]++;
+    column[rc[i].SE]++;
+  }
+
+  map<ll,ll> li,co;
+  REP(i,r)
+    li[line[i]]+=1;
+  REP(i,c)
+    co[column[i]]+=1;
+
+  ll ans=0;
+  REP(i,k+1)
+    ans+=li[i]*co[k-i];
+
+  REP(i,n){
+    ll a=line[rc[i].FI]+column[rc[i].SE];
+    if(a==k)
       ans--;
+    if(a==k+1)
+      ans++;
   }
-  cout << ans << endl;
- 
+  cout<<ans<<endl;
+
 }
+
