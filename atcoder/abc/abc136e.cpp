@@ -34,34 +34,45 @@ typedef vector<vll> vvll;
 const int inf = 1e9;
 const ll linf = 1LL << 50;
 const double eps = 1e-10;
-const int MOD = 998244353;
+const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-
-const ll MAXN=3001;
-const ll MAXS=3001;
-ll dp[MAXN][MAXS];
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,s;
-  cin>>n>>s;
+  ll n,k;
+  cin>>n>>k;
   vll a(n);
   REP(i,n)cin>>a[i];
 
-  dp[0][0]=1;
-  REP(i,n){
-    for(ll j=0; j<MAXS; j++)
-      dp[i+1][j]=2*dp[i][j]%MOD;
 
-    for(ll j=0; j+a[i]<=MAXS-1; j++)
-      dp[i+1][j+a[i]]=(dp[i+1][j+a[i]]+dp[i][j])%MOD;
+  auto lam=[&](ll x){
+    vll remind_f(n+1),remind_b(n+1);
+    vll b(n),c(n);
+    REP(i,n)b[i]=a[i]%x;
+    REP(i,n)c[i]=x-a[i]%x;
+    sort(ALL(b));
+    sort(ALL(c));
+    REP(i,n)remind_f[i+1]=remind_f[i]+b[i];
+    REP(i,n)remind_b[i+1]=remind_b[i]+c[i];
 
-  }
+    auto solve=[&](ll y){
 
-  ll ans=dp[n][s];
-  cout<<ans<<endl;
+      return true;
+    };
+
+    ll ok=0;
+    ll ng=n;
+    while(ng-ok>1){
+      ll mid=ok+ng;
+      if(solve(mid))
+        ok=mid;
+      else
+        ng=mid;
+    }
+  };
+
 }
 

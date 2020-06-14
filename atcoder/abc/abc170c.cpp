@@ -34,34 +34,52 @@ typedef vector<vll> vvll;
 const int inf = 1e9;
 const ll linf = 1LL << 50;
 const double eps = 1e-10;
-const int MOD = 998244353;
+const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-
-const ll MAXN=3001;
-const ll MAXS=3001;
-ll dp[MAXN][MAXS];
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,s;
-  cin>>n>>s;
-  vll a(n);
-  REP(i,n)cin>>a[i];
-
-  dp[0][0]=1;
+  ll x,n;
+  cin>>x>>n;
+  vll q(101);
   REP(i,n){
-    for(ll j=0; j<MAXS; j++)
-      dp[i+1][j]=2*dp[i][j]%MOD;
-
-    for(ll j=0; j+a[i]<=MAXS-1; j++)
-      dp[i+1][j+a[i]]=(dp[i+1][j+a[i]]+dp[i][j])%MOD;
-
+    ll p;
+    cin>>p;
+    q[p]=1;
   }
 
-  ll ans=dp[n][s];
-  cout<<ans<<endl;
+  ll pmin=102;
+  ll pdiff=1000;
+  for(ll p=100; p>=1; p--){
+    if(q[p]==1)
+      continue;
+    if(abs(x-p)<=pdiff){
+      pmin=p;
+      pdiff=abs(x-p);
+    }
+  }
+  ll r=101;
+  if(abs(x-r)<=pdiff){
+    if(abs(x-r)==pdiff)
+      pmin=min(pmin,r);
+    else
+      pmin=r;
+
+    pdiff=abs(x-r);
+  }
+  ll l=0;
+  if(abs(x-l)<=pdiff){
+    if(abs(x-l)==pdiff)
+      pmin=min(pmin,l);
+    else
+      pmin=l;
+    pdiff=abs(x-l);
+  }
+
+
+  cout<<pmin<<endl;
 }
 

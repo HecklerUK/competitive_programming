@@ -38,6 +38,7 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+
 struct SegmentTreeMIN{
   ll n;
   vll tree;
@@ -80,49 +81,58 @@ struct SegmentTreeMIN{
 };
 
 
+const ll MAX_B=2e5+1;
+multiset<ll> s[MAX_B];
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,m;
-  cin>>n>>m;
-  vvll index(m);
-  vll f(n);
+  ll n,q;
+  cin>>n>>q;
+  vll a(n),b(n),c(q),d(q);
   REP(i,n){
-    cin>>f[i];
-    f[i]--;
-    index[f[i]].push_back(i);
+    cin>>a[i]>>b[i];
+    b[i]--;
+  }
+  REP(i,q){
+    cin>>c[i]>>d[i];
+    c[i]--;
+    d[i]--;
   }
 
-  SegmentTreeMIN st(n+1);
-  vll v(n,LLINF);
-  REP(i,n){
-    auto it=upper_bound(ALL(index[f[i]]),i);
-    if(it!=index[f[i]].end())
-      v[i]=*it;
-    else
-      v[i]=n;
-    st.update(i,v[i]);
+  REP(i,n)
+    s[b[i]].insert(a[i]);
+  vll table(n);
+  REP(i,n)table[i]=b[i];
+
+  SegmentTreeMIN st(MAX_B);
+  REP(i,MAX_B){
+    if(s[i].size()==0)
+      continue;
+    auto it=s[i].rbegin();
+    st.update(i,*it);
   }
 
 
-  vll dp(n+2,0);
-  dp[0]=1;
-  REP(i,n){
-    ll l=i+1;
-    ll r=st.query(i,v[i]);
+  REP(i,q){
+    ll k=c[i];
+    s[table[k]].erase(a[k]);
+    if(s[table[k]].size()==0)
+      st.update(table[k],LLINF);
+    else{
+      auto itb=s[table[k]].rbegin();
+      st.update(table[k],*itb);
+    }
 
-    dp[l]=(dp[l]+dp[i])%MOD;
-    dp[r+1]=(dp[r+1]-dp[i]+MOD)%MOD;
-    if(i<n)
-      dp[i+2]=(dp[i+2]+dp[i+1])%MOD;
+    s[d[i]].insert(a[k]);
+    auto itd=s[d[i]].rbegin();
+    st.update(d[i],*itd);
+    table[k]=d[i];
+
+    ll ans=st.query(0,MAX_B);
+    cout<<ans<<endl;
   }
-
-  //REP(i,n+1)cout<<dp[i]<<endl;
-
-  cout<<dp[n]<<endl;
-
 
 
 }

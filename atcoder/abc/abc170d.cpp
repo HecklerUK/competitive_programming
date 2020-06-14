@@ -34,34 +34,42 @@ typedef vector<vll> vvll;
 const int inf = 1e9;
 const ll linf = 1LL << 50;
 const double eps = 1e-10;
-const int MOD = 998244353;
+const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-
-const ll MAXN=3001;
-const ll MAXS=3001;
-ll dp[MAXN][MAXS];
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,s;
-  cin>>n>>s;
+  ll n;
+  cin>>n;
   vll a(n);
   REP(i,n)cin>>a[i];
+  sort(ALL(a));
 
-  dp[0][0]=1;
-  REP(i,n){
-    for(ll j=0; j<MAXS; j++)
-      dp[i+1][j]=2*dp[i][j]%MOD;
 
-    for(ll j=0; j+a[i]<=MAXS-1; j++)
-      dp[i+1][j+a[i]]=(dp[i+1][j+a[i]]+dp[i][j])%MOD;
-
+  vll same(1000001);
+  REP(i,n-1){
+    if(a[i]==a[i+1])
+      same[a[i]]=1;
   }
 
-  ll ans=dp[n][s];
+  vll is(1000001);
+  ll ans=0;
+  REP(i,n){
+    if(is[a[i]]==1)
+      continue;
+
+    for(ll j=1; j*a[i]<=1000000; j++){
+      is[j*a[i]]=1;
+    }
+    if(same[a[i]]==1)
+      continue;
+
+    ans++;
+  }
   cout<<ans<<endl;
+
 }
 
