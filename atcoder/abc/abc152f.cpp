@@ -15,8 +15,8 @@ typedef vector<vll> vvll;
 #define SZ(a) ((int)a.size())
 #define FI first
 #define SE second
-#define REP(i,n) for(ll i=0;i<((int)n);i++)
-#define REP1(i,n) for(ll i=1;i<((int)n);i++)
+#define REP(i,n) for(ll i=0;i<((ll)n);i++)
+#define REP1(i,n) for(ll i=1;i<((ll)n);i++)
 #define FOR(i,a,b) for(ll i=(a);i<(b);i++)
 #define PB push_back
 #define EB emplace_back
