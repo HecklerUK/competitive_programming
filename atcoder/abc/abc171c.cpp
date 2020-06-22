@@ -15,9 +15,9 @@ typedef vector<vll> vvll;
 #define SZ(a) ((int)a.size())
 #define FI first
 #define SE second
-#define REP(i,n) for(ll i=0;i<((ll)n);i++)
-#define REP1(i,n) for(ll i=1;i<((ll)n);i++)
-#define FOR(i,a,b) for(ll i=(a);i<(b);i++)
+#define REP(i,n) for(int i=0;i<((int)n);i++)
+#define REP1(i,n) for(int i=1;i<((int)n);i++)
+#define FOR(i,a,b) for(int i=(a);i<(b);i++)
 #define PB push_back
 #define EB emplace_back
 #define MP(a,b) make_pair(a,b)
@@ -38,80 +38,40 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-
-
-vll u,v;
-vector<vpl> edge;
-ll m;
-ll n;
-
-bool dfs(ll now, ll pre, ll target, ll& p){
-  if(now==target){
-    p=0;
-    return true;
-  }
-
-  for(auto e:edge[now]){
-    if(e.FI==pre)
-      continue;
-
-    if(dfs(e.FI,now,target,p)){
-      p|=(1LL<<e.SE);
-      return true;
-    }
-  }
-  return false;
-}
-
-
-void solve(){
-  vll paths(m,0);
-  REP(i,m)dfs(u[i],-1,v[i],paths[i]);
-
-  ll ans=0;
-  REP(bit,(1LL<<m)){
-    ll p=0;
-    REP(i,m){
-      if((1LL<<i)&bit)
-        p|=paths[i];
-    }
-
-    ll cnt=__builtin_popcount(bit);
-    ll cnt_p=__builtin_popcount(p);
-
-    if(cnt%2==0)
-      ans+=(1LL<<(n-1-cnt_p));
-    else
-      ans-=(1LL<<(n-1-cnt_p));
-  }
-
-  cout<<ans<<endl;
-}
-
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
   cin>>n;
-  edge.assign(n,vpl());
-  REP(i,n-1){
-    ll a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    edge[a].push_back(pll(b,i));
-    edge[b].push_back(pll(a,i));
+  n--;
+
+  vll s;
+  ll num=26;
+  ll sum=0;
+  ll cnt=0;
+  while(sum<n){
+    if(sum+num<=n){
+      sum+=num;
+      num*=26;
+      cnt++;
+    }
+    else
+      break;
   }
 
-  cin>>m;
-  u.resize(m),v.resize(m);
-  REP(i,m){
-    cin>>u[i]>>v[i];
-    u[i]--;
-    v[i]--;
+  n-=sum;
+  while(cnt>=0){
+    ll c=n%26;
+    s.push_back(c);
+    n/=26;
+    cnt--;
   }
-  solve();
+
+  ll g=s.size();
+  REP(i,g)
+    cout<<char(s[g-1-i]+'a');
+  cout<<endl;
 
 }
 

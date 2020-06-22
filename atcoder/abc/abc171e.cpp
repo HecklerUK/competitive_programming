@@ -42,41 +42,13 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,k;
-  cin>>n>>k;
+  ll n;
+  cin>>n;
   vll a(n);
   REP(i,n)cin>>a[i];
 
-  ll cnt=1;
-  ll base=1;
-  while(base<n){
-    base*=2;
-    cnt++;
-  }
-
-
-  vll ans(n);
-  copy(ALL(a),ans.begin());
-  while(k>0){
-    vll imos(n+1);
-    REP(j,n){
-      ll l=max(0LL,j-ans[j]);
-      ll r=min(j+ans[j]+1,n);
-      imos[l]++;
-      imos[r]--;
-    }
-
-    REP(j,n)imos[j+1]+=imos[j];
-    imos.pop_back();
-    if(ans==imos)
-      break;
-    else
-      ans=imos;
-    k--;
-  }
-
-  cout<<ans[0];
-  REP(i,n-1)cout<<" "<<ans[i+1];
-  cout<<endl;
+  ll s=0;
+  REP(i,n)s=s^a[i];
+  REP(i,n)cout<<(s^a[i])<<endl;
 }
 
