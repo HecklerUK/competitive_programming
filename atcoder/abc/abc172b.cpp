@@ -38,71 +38,19 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-ll mpow(ll m, ll p){
-  ll power = m;
-  ll res = 1;
-  while(p>0){
-    if(p&1)
-      res = res*power%MOD;
-    power = (power*power)%MOD;
-    p /= 2;
-  }
-
-  return res;
-}
-
-ll mod_inv(ll m){
-  return mpow(m, MOD-2);
-}
-
-struct COM{
-  vll fact, fact_inv;
-  COM(ll n): fact(n+1,1), fact_inv(n+1,1){
-    for(ll i=1; i<=n; i++)
-      fact[i] = fact[i-1]*i%MOD;
-
-    fact_inv[n] = mod_inv(fact[n]);
-    for(ll i=n; i>=1; i--)
-      fact_inv[i-1] = fact_inv[i]*i%MOD;
-  }
-
-  ll calc(ll n, ll k){
-    if(k<0 || n<k)
-      return 0;
-    ll res = fact[n]*fact_inv[n-k]%MOD*fact_inv[k]%MOD;
-    return res;
-  }
-};
-
-
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
-  vll x(n);
-  REP(i,n)cin>>x[i];
+  string s,t;
+  cin>>s;
+  cin>>t;
 
-  vll remind(n);
-  for(ll i=1; i<=n; i++){
-    remind[i+1]=(remind[i]+mod_inv(i))%MOD;
-  }
-
-
-  COM com(n);
   ll ans=0;
-  REP(i,n-1){
-    ll dist=x[i+1]-x[i];
-    ll l=1;
-    ll r=i+2;
-    ll plus=dist*((remind[r]-remind[l]+MOD)%MOD)%MOD;
-    ans=(ans+plus)%MOD;
+  REP(i,s.size()){
+    if(s[i]!=t[i])
+      ans++;
   }
-
-  ans=ans*com.fact[n-1]%MOD;
-
   cout<<ans<<endl;
 }
 

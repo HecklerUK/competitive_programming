@@ -38,6 +38,7 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+
 ll mpow(ll m, ll p){
   ll power = m;
   ll res = 1;
@@ -75,34 +76,25 @@ struct COM{
 };
 
 
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
-  vll x(n);
-  REP(i,n)cin>>x[i];
-
-  vll remind(n);
-  for(ll i=1; i<=n; i++){
-    remind[i+1]=(remind[i]+mod_inv(i))%MOD;
-  }
+  ll n,m;
+  cin>>n>>m;
 
 
-  COM com(n);
+  COM com(m);
+
   ll ans=0;
-  REP(i,n-1){
-    ll dist=x[i+1]-x[i];
-    ll l=1;
-    ll r=i+2;
-    ll plus=dist*((remind[r]-remind[l]+MOD)%MOD)%MOD;
-    ans=(ans+plus)%MOD;
+  REP(i,n+1){
+    ll remind=com.fact[m-i]*com.fact_inv[m-n]%MOD;
+    ll now=com.calc(n,i)*remind%MOD*pow(-1,i%2);
+    ans=(ans+now+MOD)%MOD;
   }
 
-  ans=ans*com.fact[n-1]%MOD;
-
+  ans=com.calc(m,n)*com.fact[n]%MOD*ans%MOD;
   cout<<ans<<endl;
+
 }
 
