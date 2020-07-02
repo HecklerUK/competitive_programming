@@ -42,5 +42,46 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll t;
+  cin>>t;
+  REP(i,t){
+    ll a,b,n,m;
+    cin>>a>>b>>n>>m;
+
+    if(a+b<n+m){
+      no;
+      continue;
+    }
+
+    if(a<b)
+      swap(a,b);
+    ll diff=a-b;
+    ll mi=min(diff,n);
+    a-=mi;
+    n-=mi;
+
+    if(n!=0){
+      ll y=min(n,m);
+      a-=y;
+      b-=y;
+      n-=y;
+      m-=y;
+      if(m==0)
+        yes;
+      else{
+        if(m<=min(a,b))
+          yes;
+        else
+          no;
+      }
+    }
+    else{
+        if(m<=min(a,b))
+          yes;
+        else
+          no;
+    }
+
+  }
 }
 

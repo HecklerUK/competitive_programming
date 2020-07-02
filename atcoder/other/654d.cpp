@@ -42,5 +42,30 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll t;
+  cin>>t;
+  REP(i,t){
+    ll n,k;
+    cin>>n>>k;
+    vvll v(n,vll(n,0));
+    ll x=0,y=0;
+    REP(j,k){
+      if(j%n==0)
+        x=(x+1)%n;
+      v[x][y]=1;
+      x=(x-1+n)%n;
+      y=(y-1+n)%n;
+    }
+
+    ll ans=2;
+    if(k%n==0)
+      ans=0;
+    cout<<ans<<endl;
+
+    REP(j,n){
+      REP(k,n)cout<<v[j][k];
+      cout<<endl;
+    }
+  }
 }
 
