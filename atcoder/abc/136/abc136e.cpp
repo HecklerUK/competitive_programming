@@ -1,15 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// types
 typedef long long ll;
 typedef long double ld;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef pair<ld,ld> pdd;
 typedef vector<ll> vll;
+typedef vector<ld> vld;
+typedef vector<pll> vpl;
+typedef vector<vll> vvll;
 
-// macros
 #define ALL(a) a.begin(),a.end()
 #define SZ(a) ((int)a.size())
 #define FI first
@@ -22,11 +23,14 @@ typedef vector<ll> vll;
 #define MP(a,b) make_pair(a,b)
 #define SORT_UNIQUE(c) (sort(c.begin(),c.end()), c.resize(distance(c.begin(),unique(c.begin(),c.end()))))
 #define GET_POS(c,x) (lower_bound(c.begin(),c.end(),x)-c.begin())
+#define yes cout<<"Yes"<<endl
+#define YES cout<<"YES"<<endl
+#define no cout<<"No"<<endl
+#define NO cout<<"NO"<<endl
 #define Decimal fixed<<setprecision(20)
 #define INF 1000000000
 #define LLINF 1000000000000000000LL
 
-// constants
 const int inf = 1e9;
 const ll linf = 1LL << 50;
 const double eps = 1e-10;
@@ -34,81 +38,41 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-ll n, k;
-
-ll gcdSearch(vll a, ll gcd){
-  vll modPlus(n), modMinus(n);
-  ll A, B;
-  A = B = 0;
-  REP(i, n){
-    modPlus[i] = a[i] % gcd;
-    //modMinus[i] = gcd - a[i] % gcd;
-    B += gcd - modPlus[i];
-  }
-  sort(modPlus.begin(), modPlus.end());
-  //sort(modMinus.begin(), modMinus.end());
-
-  ll mpIndex, mmIndex, counter, kCounter;
-  mpIndex = mmIndex = counter = kCounter = 0;
-  ll need = LLINF;
-  REP(i, n){
-    A += modPlus[i];
-    B -= gcd - modPlus[i];
-    need = min(need, max(A, B));
-
-    //if(modPlus[mpIndex] > modMinus[mmIndex]){
-    //  modPlus[mpIndex] -= modMinus[mmIndex];
-    //  kCounter += modMinus[mmIndex];
-    //  mmIndex++;
-    //  counter++;
-    //}
-    //else if(modPlus[mpIndex] < modMinus[mmIndex]){
-    //  modMinus[mmIndex] -= modPlus[mpIndex];
-    //  kCounter += modPlus[mpIndex];
-    //  mpIndex++;
-    //  counter++;
-    //}
-    //else{
-    //  kCounter += modPlus[mpIndex];
-    //  mmIndex++;
-    //  mpIndex++;
-    //  counter += 2;
-    //}
-    //if(kCounter > k)
-    //  return false;
-    //if(counter == n)
-    //  return true;
-  }
-  return need;
-
-}
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  cin >> n >> k;
+  ll n,k;
+  cin>>n>>k;
   vll a(n);
-  ll sum = 0;
-  REP(i, n){
-    cin >> a[i];
-    sum += a[i];
-  }
-  set<ll> gcd;
-  for(ll i = 1; i*i <= sum; i++){
-    if(sum % i == 0){
-      gcd.insert(i);
-      gcd.insert(sum/i);
+  REP(i,n)cin>>a[i];
+
+
+  auto lam=[&](ll x){
+    vll remind_f(n+1),remind_b(n+1);
+    vll b(n),c(n);
+    REP(i,n)b[i]=a[i]%x;
+    REP(i,n)c[i]=x-a[i]%x;
+    sort(ALL(b));
+    sort(ALL(c));
+    REP(i,n)remind_f[i+1]=remind_f[i]+b[i];
+    REP(i,n)remind_b[i+1]=remind_b[i]+c[i];
+
+    auto solve=[&](ll y){
+
+      return true;
+    };
+
+    ll ok=0;
+    ll ng=n;
+    while(ng-ok>1){
+      ll mid=ok+ng;
+      if(solve(mid))
+        ok=mid;
+      else
+        ng=mid;
     }
-  }
+  };
 
-  ll ans = 1;
-  for(ll x : gcd){
-    if(gcdSearch(a, x) <= k)
-      ans = max(ans, x);
-  }
-
-  cout << ans << "\n";
-  
-  
 }
+
