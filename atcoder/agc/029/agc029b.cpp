@@ -52,25 +52,21 @@ int main(){
   }
 
   sort(ALL(a),greater<ll>());
-  ll x=30;
   ll ans=0;
   REP(i,n){
       if(m[a[i]]==0)
-        break;
+        continue;
       m[a[i]]-=1;
 
       ll t=1;
-      while(t<a[i])
+      while(t<=a[i])
         t*=2;
 
-      if(m[t]!=0){
-        m[t]-=1;
+      if(m[t-a[i]]!=0){
+        m[t-a[i]]-=1;
         ans++;
-        break;
       }
     }
-
-  }
 
   cout<<ans<<endl;
 }
