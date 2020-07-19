@@ -45,28 +45,30 @@ int main(){
   ll t;
   cin>>t;
   REP(i,t){
-    ll n;
-    cin>>n;
-    vll a(n);
-    REP(i,n)cin>>a[i];
+    ll l,r,m;
+    cin>>l>>r>>m;
 
-    //a[i-1] is valid, 1;
-    ll pre=1;
-    ll cnt=0;
-    REP(i,n){
-      if(a[i]!=i+1 && pre==1)
-        cnt++;
-
-      if(a[i]==i+1)
-        pre=1;
-      else
-        pre=0;
+    vll ans(3,-1);
+    for(ll a=l; a<=r; a++){
+      ll y=m%a;
+      if(a-y<=r-l){
+        ans[0]=a;
+        ans[1]=l;
+        ans[2]=l+(a-y);
+      }
+      if(y<=r-l && m!=y){
+        ans[0]=a;
+        ans[1]=l+y;
+        ans[2]=l;
+      }
     }
 
-    if(cnt<=1)
-      cout<<cnt<<endl;
-    else
-      cout<<2<<endl;
+    REP(j,3){
+      if(j!=0)
+        cout<<" ";
+      cout<<ans[j];
+    }
+    cout<<endl;
   }
 }
 

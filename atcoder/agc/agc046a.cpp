@@ -38,35 +38,27 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+ll gcd(ll a, ll b){
+  if(b==0)
+    return a;
+  if(a<b)
+    return gcd(b,a);
+
+  return gcd(b,a%b);
+}
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll t;
-  cin>>t;
-  REP(i,t){
-    ll n;
-    cin>>n;
-    vll a(n);
-    REP(i,n)cin>>a[i];
+  ll x;
+  cin>>x;
+  ll u=gcd(360,x);
 
-    //a[i-1] is valid, 1;
-    ll pre=1;
-    ll cnt=0;
-    REP(i,n){
-      if(a[i]!=i+1 && pre==1)
-        cnt++;
+  ll lcd=x*360/u;
+  ll ans=lcd/x;
 
-      if(a[i]==i+1)
-        pre=1;
-      else
-        pre=0;
-    }
+  cout<<ans<<endl;
 
-    if(cnt<=1)
-      cout<<cnt<<endl;
-    else
-      cout<<2<<endl;
-  }
 }
 

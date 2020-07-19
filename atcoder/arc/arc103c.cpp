@@ -42,31 +42,43 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll t;
-  cin>>t;
-  REP(i,t){
-    ll n;
-    cin>>n;
-    vll a(n);
-    REP(i,n)cin>>a[i];
+  string s;
+  cin>>s;
+  ll n=s.size();
 
-    //a[i-1] is valid, 1;
-    ll pre=1;
-    ll cnt=0;
-    REP(i,n){
-      if(a[i]!=i+1 && pre==1)
-        cnt++;
+  bool flag=false;
+  if(s[0]==0 || s[n-1]=='1')
+    flag=true;
 
-      if(a[i]==i+1)
-        pre=1;
-      else
-        pre=0;
-    }
-
-    if(cnt<=1)
-      cout<<cnt<<endl;
-    else
-      cout<<2<<endl;
+  for(ll i=0; i+1<=n-(i+1); i++){
+    ll l=i;
+    ll r=n-(i+1)-1;
+    if(s[l]!=s[r])
+      flag=true;
   }
+
+  if(flag){
+    cout<<-1<<endl;
+    return 0;
+  }
+
+
+  vpl edge;
+  ll last=0;
+  ll now=1;
+  REP(i,n-1){
+    if(s[i]==1){
+      edge.push_back(pll(last,now));
+      last=now;
+      now++;
+    }
+    else{
+      edge.push_back(pll(last,now));
+      now++;
+    }
+  }
+
+  for(auto e:edge)
+    cout<<e.FI+1<<" "<<e.SE+1<<endl;
 }
 

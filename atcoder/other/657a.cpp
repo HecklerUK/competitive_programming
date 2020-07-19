@@ -44,29 +44,91 @@ int main(){
 
   ll t;
   cin>>t;
+
+  string target="abacaba";
+  ll m=7;
   REP(i,t){
     ll n;
     cin>>n;
-    vll a(n);
-    REP(i,n)cin>>a[i];
+    string s;
+    cin>>s;
 
-    //a[i-1] is valid, 1;
-    ll pre=1;
     ll cnt=0;
-    REP(i,n){
-      if(a[i]!=i+1 && pre==1)
-        cnt++;
+    bool ans=false;
+    ll start=0;
+    for(ll k=0; k+m-1<n; k++){
+      string tmp=s.substr(k,m);
 
-      if(a[i]==i+1)
-        pre=1;
-      else
-        pre=0;
+      //check cnt
+      if(tmp==target){
+        cnt++;
+        if(1<cnt)
+          break;
+      }
+
+
+      bool flag=true;
+      REP(j,m){
+        if(tmp[j]!=target[j] && tmp[j]!='?')
+          flag=false;
+      }
+
+      if(flag){
+        ll l=max(0LL,k-7);
+        ll r=min(n-1,k+7);
+        REP(j,m)
+          s[k+j]=target[j];
+
+        ll kcnt=0;
+        for(ll j=l; j<=r; j++){
+          string ktmp=s.substr(j,m);
+          if(ktmp==target)
+            kcnt++;
+        }
+
+        REP(j,m)
+          s[k+j]=tmp[j];
+
+        if(kcnt==1){
+          ans=true;
+          start=k;
+        }
+      }
     }
 
-    if(cnt<=1)
-      cout<<cnt<<endl;
-    else
-      cout<<2<<endl;
+    if(1<cnt)
+      no;
+
+    if(cnt==1){
+      yes;
+      REP(j,n){
+        if(s[j]=='?')
+          cout<<'z';
+        else
+          cout<<s[j];
+      }
+      cout<<endl;
+    }
+
+    if(cnt==0){
+      if(ans){
+        yes;
+        REP(j,m){
+          s[start+j]=target[j];
+        }
+        REP(j,n){
+          if(s[j]=='?')
+            cout<<'z';
+          else
+            cout<<s[j];
+        }
+        cout<<endl;
+      }
+      else
+        no;
+    }
+
   }
+
 }
 

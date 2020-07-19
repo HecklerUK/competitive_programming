@@ -42,31 +42,5 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll t;
-  cin>>t;
-  REP(i,t){
-    ll n;
-    cin>>n;
-    vll a(n);
-    REP(i,n)cin>>a[i];
-
-    //a[i-1] is valid, 1;
-    ll pre=1;
-    ll cnt=0;
-    REP(i,n){
-      if(a[i]!=i+1 && pre==1)
-        cnt++;
-
-      if(a[i]==i+1)
-        pre=1;
-      else
-        pre=0;
-    }
-
-    if(cnt<=1)
-      cout<<cnt<<endl;
-    else
-      cout<<2<<endl;
-  }
 }
 
