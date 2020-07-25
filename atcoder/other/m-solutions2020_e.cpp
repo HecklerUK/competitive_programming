@@ -42,58 +42,5 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll t;
-  cin>>t;
-  REP(i,t){
-    ll n,m;
-    cin>>n>>m;
-    vpl a(m),b(m);
-    vll c(m);
-    REP(j,m){
-      cin>>a[j].FI>>b[j].FI;
-      a[j].SE=j;
-      b[j].SE=j;
-      c[j]=a[j].FI;
-    }
-
-    sort(ALL(a),greater<pll>());
-    sort(ALL(b),greater<pll>());
-    sort(ALL(c));
-
-    vll taken(m);
-    ll cnt=0;
-    ll ans=0;
-    vll remind(m+1);
-    REP(j,m){
-      if(a[j]<b[0])
-        break;
-      ans+=a[j].FI;
-      taken[a[j].SE]=1;
-      remind[j+1]+=remind[j]+a[j].SE;
-      cnt++;
-    }
-
-    map<ll,ll> amap;
-    REP(j,m)amap[a[j].SE]=a[j].FI;
-
-    ll rest=0;
-  //  cout<<"cnt:"<<cnt<<endl;
-    REP(j,m){
-      auto it=lower_bound(ALL(c),b[j].FI);
-      ll diff=remind[m-cnt]-remind[ll(it-c.begin())];
-      ll diffcnt=m-ll(it-c.begin())-cnt;
-  //    cout<<"b:"<<b[j].FI;
-  //    cout<<" diff:"<<diff;
-  //    cout<<" diffcnt:"<<diffcnt<<endl;
-
-      if(taken[b[j].SE] || b[j].FI<=amap[b[j].SE])
-        rest=max(rest,b[j].FI*(n-cnt-diffcnt)+diff);
-
-      else
-        rest=max(rest,b[j].FI*(n-cnt-1-diffcnt)+amap[b[j].SE]+diff);
-    }
-
-    cout<<ans+rest<<endl;
-  }
 }
 

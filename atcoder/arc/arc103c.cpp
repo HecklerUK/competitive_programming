@@ -47,7 +47,7 @@ int main(){
   ll n=s.size();
 
   bool flag=false;
-  if(s[0]==0 || s[n-1]=='1')
+  if(s[0]=='0' || s[n-1]=='1')
     flag=true;
 
   for(ll i=0; i+1<=n-(i+1); i++){
@@ -67,7 +67,7 @@ int main(){
   ll last=0;
   ll now=1;
   REP(i,n-1){
-    if(s[i]==1){
+    if(s[i]=='1'){
       edge.push_back(pll(last,now));
       last=now;
       now++;

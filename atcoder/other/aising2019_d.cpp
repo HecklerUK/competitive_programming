@@ -42,58 +42,58 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll t;
-  cin>>t;
-  REP(i,t){
-    ll n,m;
-    cin>>n>>m;
-    vpl a(m),b(m);
-    vll c(m);
-    REP(j,m){
-      cin>>a[j].FI>>b[j].FI;
-      a[j].SE=j;
-      b[j].SE=j;
-      c[j]=a[j].FI;
-    }
+  ll n,q;
+  cin>>n>>q;
+  vll a(n);
+  REP(i,n)cin>>a[i];
 
-    sort(ALL(a),greater<pll>());
-    sort(ALL(b),greater<pll>());
-    sort(ALL(c));
-
-    vll taken(m);
-    ll cnt=0;
-    ll ans=0;
-    vll remind(m+1);
-    REP(j,m){
-      if(a[j]<b[0])
-        break;
-      ans+=a[j].FI;
-      taken[a[j].SE]=1;
-      remind[j+1]+=remind[j]+a[j].SE;
-      cnt++;
-    }
-
-    map<ll,ll> amap;
-    REP(j,m)amap[a[j].SE]=a[j].FI;
-
-    ll rest=0;
-  //  cout<<"cnt:"<<cnt<<endl;
-    REP(j,m){
-      auto it=lower_bound(ALL(c),b[j].FI);
-      ll diff=remind[m-cnt]-remind[ll(it-c.begin())];
-      ll diffcnt=m-ll(it-c.begin())-cnt;
-  //    cout<<"b:"<<b[j].FI;
-  //    cout<<" diff:"<<diff;
-  //    cout<<" diffcnt:"<<diffcnt<<endl;
-
-      if(taken[b[j].SE] || b[j].FI<=amap[b[j].SE])
-        rest=max(rest,b[j].FI*(n-cnt-diffcnt)+diff);
-
+  vvll rem(2,vll(n+1));
+  vll cum(n+1);
+  REP(i,n){
+    REP(j,2){
+      if(i%2==j)
+        rem[j][i+1]+=rem[j][i]+a[i];
       else
-        rest=max(rest,b[j].FI*(n-cnt-1-diffcnt)+amap[b[j].SE]+diff);
+        rem[j][i+1]+=rem[j][i];
     }
+    cum[i+1]=cum[i]+a[i];
+  }
+  vll ao=rem[1],ta=rem[0];
+  if(n%2==1)
+    swap(ao,ta);
 
-    cout<<ans+rest<<endl;
+  auto checkDist=[&](ll x, ll d){
+    ll l=ll(lower_bound(ALL(a),x-d)-a.begin());
+    ll r=ll(upper_bound(ALL(a),x+d)-a.begin());
+
+    ll num_a=r-l;
+    ll num_t=n-r;
+    return num_a<=num_t;
+
+  };
+  REP(i,q){
+    ll x;
+    cin>>x;
+
+    ll ok=0;
+    ll ng=1e9;
+    while(ng-ok>1){
+      ll mid=(ok+ng)/2;
+      if(checkDist(x,mid))
+        ok=mid;
+      else
+        ng=mid;
+    }
+    ll l=ll(lower_bound(ALL(a),x-ok)-a.begin());
+    ll r=ll(upper_bound(ALL(a),x+ok)-a.begin());
+
+    cout<<"ok:"<<ok<<" ta:"<<r<<" ao:"<<l<<endl;
+
+    ll L=max(l-1,0LL);
+    cout<<cum[n]<<"-"<<cum[r]<<"+"<<cum[L]<<endl;
+
+    ll ans=cum[n]-cum[r]+cum[L];
+    cout<<ans<<endl;
   }
 }
 
