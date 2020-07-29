@@ -42,5 +42,16 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n,k;
+  cin>>n>>k;
+  vll a(n);
+  REP(i,n)cin>>a[i];
+
+  for(ll i=k; i<n; i++){
+    if(a[i-k]<a[i])
+      yes;
+    else
+      no;
+  }
 }
 

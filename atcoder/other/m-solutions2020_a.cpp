@@ -42,5 +42,10 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+
+  ll x;
+  cin>>x;
+  ll ans=8-(x-400)/200;
+  cout<<ans<<endl;
 }
 

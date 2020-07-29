@@ -42,5 +42,25 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  vll a(n);
+  REP(i,n)cin>>a[i];
+
+  ll money=1000;
+  ll nmin=a[0];
+  REP(i,n){
+    ll pre=a[i-1];
+    if(i==0)
+      continue;
+
+    if(pre>a[i]){
+      money+=money/nmin*(pre-nmin);
+      nmin=a[i];
+    }
+  }
+  money+=money/nmin*(a[n-1]-nmin);
+
+  cout<<money<<endl;
 }
 
