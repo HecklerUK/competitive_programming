@@ -38,36 +38,45 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+
+
+ll NMAX=2*1e5+10;
+ll n,k;
+vll a(NMAX);
+bool solve(ll l){
+  ll sum=0;
+  REP(i,n){
+    ll d=a[i]/l;
+    if(a[i]%l==0)
+      d--;
+
+    sum+=d;
+  }
+
+  return sum<=k;
+}
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll q;
-  cin>>q;
-  vll a(q),b(q);
-  REP(i,q){
-    cin>>a[i]>>b[i];
-    if(a[i]>b[i])
-      swap(a[i],b[i]);
+  cin>>n>>k;
+  REP(i,n)cin>>a[i];
+
+  ll ml=0;
+  REP(i,n)ml=max(ml,a[i]);
+
+  ll ok=ml;
+  ll ng=0;
+  while(ok-ng>1){
+    ll mid=(ok+ng)/2;
+    if(solve(mid))
+      ok=mid;
+    else
+      ng=mid;
   }
 
-  REP(i,q){
-    ll ans;
-    if(a[i]==b[i])
-      ans=2*(a[i]-1);
-    else{
-      ll ok=0;
-      ll ng=1e10;
-      while(ng-ok>1){
-        ll mid=(ng-ok)/2;
-
-        if()
-
-      }
-
-    }
-
-  }
+  cout<<ok<<endl;
 
 
 }

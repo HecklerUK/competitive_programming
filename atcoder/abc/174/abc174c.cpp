@@ -42,33 +42,25 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll q;
-  cin>>q;
-  vll a(q),b(q);
-  REP(i,q){
-    cin>>a[i]>>b[i];
-    if(a[i]>b[i])
-      swap(a[i],b[i]);
-  }
+  ll k;
+  cin>>k;
 
-  REP(i,q){
-    ll ans;
-    if(a[i]==b[i])
-      ans=2*(a[i]-1);
-    else{
-      ll ok=0;
-      ll ng=1e10;
-      while(ng-ok>1){
-        ll mid=(ng-ok)/2;
+  ll cnt=0;
+  ll rem=0;
+  ll power=7;
+  while(true){
+    cnt++;
+    rem=(rem+power)%k;
+    if(rem==0)
+      break;
 
-        if()
-
-      }
-
+    power=power*10%k;
+    if(power==0 || cnt>=1e6+1){
+      cnt=-1;
+      break;
     }
-
   }
 
-
+  cout<<cnt<<endl;
 }
 

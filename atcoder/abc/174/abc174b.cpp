@@ -42,33 +42,17 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll q;
-  cin>>q;
-  vll a(q),b(q);
-  REP(i,q){
-    cin>>a[i]>>b[i];
-    if(a[i]>b[i])
-      swap(a[i],b[i]);
+  ll n,d;
+  cin>>n>>d;
+  ll ans=0;
+  REP(i,n){
+    ll x,y;
+    cin>>x>>y;
+    ld dist=sqrt(x*x+y*y);
+    if(dist<=ld(d))
+      ans++;
   }
 
-  REP(i,q){
-    ll ans;
-    if(a[i]==b[i])
-      ans=2*(a[i]-1);
-    else{
-      ll ok=0;
-      ll ng=1e10;
-      while(ng-ok>1){
-        ll mid=(ng-ok)/2;
-
-        if()
-
-      }
-
-    }
-
-  }
-
-
+  cout<<ans<<endl;
 }
 
