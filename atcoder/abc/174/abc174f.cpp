@@ -98,8 +98,8 @@ int main(){
   }
 
 
-  vvll index(n+2,vll());
-  REP(i,n)index[c[i]].push_back(i);
+  vector<queue<ll>> index(n+2,queue<ll>());
+  REP(i,n)index[c[i]].push(i);
 
   SegmentTreeSUM st(n);
 
@@ -115,11 +115,12 @@ int main(){
   ll cur=-1;
   REP(i,q){
     for(ll j=cur+1; j<=qu[i].FI; j++){
-      auto it=lower_bound(ALL(index[c[j]]),j);
-      if(it!=index[c[j]].begin())
-        st.update(*(it-1),0);
+      if(index[c[j]].front()!=j){
+        st.update(index[c[j]].front(),0);
+        index[c[j]].pop();
+      }
 
-      st.update(*it,1);
+      st.update(j,1);
     }
     cur=qu[i].FI;
 
