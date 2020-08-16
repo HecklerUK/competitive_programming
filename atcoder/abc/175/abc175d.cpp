@@ -42,5 +42,41 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n,k;
+  cin>>n>>k;
+  vll p(n),c(n);
+  REP(i,n)cin>>p[i];
+  REP(i,n)p[i]--;
+
+  REP(i,n)cin>>c[i];
+
+
+  ll ans=-LLINF;
+  REP(i,n){
+    //detect cycle
+    vll v;
+    ll all = 0;
+    ll now = i;
+
+    while(true){
+      now=p[now];
+      all+=c[now];
+      v.push_back(now);
+      if(now==i)
+        break;
+    }
+
+    ll sum = 0;
+    ll sz=v.size();
+    for (ll i = 0; i < sz; i++)
+    {
+      sum += c[v[i]];
+      ll g=max(all, 0LL);
+      if(i+1<=k)
+      ans = max(ans, sum + (k - 1 - i) / sz * g);
+    }
+  }
+
+  cout<<ans<<endl;
 }
 

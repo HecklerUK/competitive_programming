@@ -42,5 +42,22 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  string s;
+  cin>>s;
+  ll n=s.size();
+
+  ll now=0;
+  ll ans=0;
+  REP(i,n){
+    if(s[i]=='R')
+      now++;
+    else{
+      ans=max(ans,now);
+      now=0;
+    }
+  }
+
+  ans=max(ans,now);
+  cout<<ans<<endl;
 }
 

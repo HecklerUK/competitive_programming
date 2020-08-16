@@ -42,5 +42,30 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll x,k,d;
+  cin>>x>>k>>d;
+
+  x=abs(x);
+  ll mx=x%d;
+  ll r=x/d;
+
+  if(mx>abs(mx-d)){
+    mx=abs(mx-d);
+    r++;
+  }
+
+  ll ans;
+  if(k<r)
+    ans=x-d*k;
+  else{
+    ll rem=k-r;
+    if(rem%2==0)
+      ans=mx;
+    else
+      ans=abs(mx-d);
+  }
+
+
+  cout<<ans<<endl;
 }
 

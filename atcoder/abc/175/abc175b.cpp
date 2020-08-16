@@ -42,5 +42,25 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  vll l(n);
+  REP(i,n)cin>>l[i];
+
+  ll ans=0;
+  sort(ALL(l));
+  REP(i,n){
+    for(ll j=i+1; j<n; j++){
+      for(ll k=j+1; k<n; k++){
+        if(l[i]==l[j]||l[j]==l[k])
+          continue;
+        if(l[i]+l[j]>l[k])
+          ans++;
+      }
+    }
+  }
+
+
+  cout<<ans<<endl;
 }
 
