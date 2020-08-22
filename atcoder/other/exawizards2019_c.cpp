@@ -38,10 +38,98 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+
+
+ll n,q;
+string s;
+ll Q_MAX=2e5;
+vector<char> t(Q_MAX),d(Q_MAX);
+
+bool lcheck(ll m){
+  if(m==-1)
+    return true;
+
+  char now=s[m];
+  REP(i,q){
+    if(t[i]==now){
+      if(d[i]=='L')
+        m--;
+      else
+        m++;
+
+      if(m==-1)
+        return true;
+      if(m==n)
+        return false;
+
+      now=s[m];
+    }
+  }
+
+  return false;
+}
+
+
+bool rcheck(ll m){
+  if(m==n)
+    return true;
+
+  char now=s[m];
+  REP(i,q){
+    if(t[i]==now){
+      if(d[i]=='L')
+        m--;
+      else
+        m++;
+
+      if(m==n)
+        return true;
+      if(m==-1)
+        return false;
+
+      now=s[m];
+    }
+  }
+
+  return false;
+}
+
+
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  cin>>n>>q;
+  cin>>s;
+  REP(i,q)cin>>t[i]>>d[i];
+
+  ll ok=-1;
+  ll ng=n;
+  while(abs(ng-ok)>1){
+    ll mid=(ng+ok)/2;
+    if(lcheck(mid))
+      ok=mid;
+    else
+      ng=mid;
+  }
+
+  ll l=ok;
+
+
+  ok=n;
+  ng=-1;
+  while(abs(ok-ng)>1){
+    ll mid=(ng+ok)/2;
+    if(rcheck(mid))
+      ok=mid;
+    else
+      ng=mid;
+  }
+
+  ll r=ok;
+  ll ans=n-(l+1)-(n-r);
+  cout<<ans<<endl;
 
 }
 
