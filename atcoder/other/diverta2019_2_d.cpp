@@ -38,41 +38,39 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-ll MAX_H=1e3;
-ll MAX_W=1e3;
-vll a(MAX_H*MAX_W,-1);
-vector<string> s(MAX_H);
-
-ll h,w;
-
-bool dfs(ll x, ll y, ll sz){
-  if(s[y][x]=='.')
-    return;
-
-  REP(i,4){
-  if(a[y*w+x]!=-1)
-  }
-
-}
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  cin>>h>>w;
-  ll ch,cw,dh,dw;
-  cin>>ch>>cw>>dh>>dw;
-  REP(i,h)cin>>s[i];
+  ll n;
+  cin>>n;
+  vll a(3),b(3);
+  REP(i,3)cin>>a[i];
+  REP(i,3)cin>>b[i];
 
-  ll sz=0;
-  REP(y,h){
-    REP(x,w){
-      bool res=dfs(x,y,sz);
-      if(res)
-        sz++;
+  vll dp(5010);
+  for(ll i=0; i<5010; i++){
+    vll t(3);
+    REP(j,3){
+      if(i>=a[j])
+        t[j]=dp[i-a[j]]+b[j];
     }
+    dp[i]=max({t[0],t[1],t[2],i});
   }
 
+  vll dp2(5010*5010);
+  for(ll i=0; i<5010*5010; i++){
+    vll t(3);
+    REP(j,3){
+      if(i>=b[j])
+        t[j]=dp2[i-b[j]]+a[j];
+    }
+    dp2[i]=max({t[0],t[1],t[2],i});
+  }
+
+  ll tmp=dp[n];
+  ll ans=dp2[tmp];
+  cout<<ans<<endl;
 
 }
 
