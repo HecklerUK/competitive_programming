@@ -38,9 +38,71 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+ll gcd(ll a, ll b){
+  if(b>a)
+    return gcd(b,a);
+  if(b==0)
+    return a;
+
+  return gcd(b,a%b);
+}
+
+
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll t;
+  cin>>t;
+  REP(i,t){
+    ll n;
+    cin>>n;
+    if(n%2==0)
+      cout<<n/2<<" "<<n/2<<endl;
+    else{
+      ll x=0;
+      for(ll j=2; j*j<=n; j++){
+        if(n%j==0){
+          x=j;
+          break;
+        }
+      }
+      if(x==0)
+        cout<<1<<" "<<n-1<<endl;
+      else{
+        x=max(n/x,x);
+        ll w=n/x;
+        //      ll y=0;
+
+//        for(ll k=2; k*k<=w; k++){
+//          if(w%k==0)
+//            y=k;
+//        }
+
+//        if(y==0)
+          cout<<x<<" "<<(w-1)*x<<endl;
+ //       else
+ //         cout<<1<<" "<<n-1<<endl;
+
+      }
+    }
+  }
+
+
+
+//  ll n=100;
+//  ll x=0;
+//  ll res=LLINF;
+//  pll ans=pll()
+//  REP(i,n){
+//    if(i==0)
+//      continue;
+//    ll g=gcd(i,n-i);
+//    if(res>i*(n-i)/g)
+//      kk
+//
+//    if()
+//  }
 }
 

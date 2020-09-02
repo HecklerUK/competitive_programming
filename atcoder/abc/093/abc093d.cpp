@@ -41,6 +41,7 @@ const int dy[4] = {0, -1, 0, 1};
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
+
   ll q;
   cin>>q;
   vll a(q),b(q);
@@ -51,8 +52,21 @@ int main(){
   }
 
   REP(i,q){
-    ll ans=a[i]+b[i]-2-b[i]/(a[i]+1);
-    cout<<ans<<endl;
+    ll ans;
+    if(a[i]==b[i])
+      ans=2*(a[i]-1);
+    else{
+      ll ok=0;
+      ll ng=1e10;
+      while(ng-ok>1){
+        ll mid=(ng-ok)/2;
+
+        if()
+
+      }
+
+    }
+
   }
 
 

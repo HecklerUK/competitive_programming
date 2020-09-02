@@ -120,31 +120,12 @@ int main(){
 
 
   if(cnt_minus%2!=0){
-    if(s_minus.size()==0 && s_plus.size()==0)
-        ans=(MOD-rev_ans)%MOD;
+    bool mok=(s_plus.size()!=0);
+    ll pnum=k-cnt_minus;
+    bool pok=(s_minus.size()!=0 && pnum!=0);
 
-    else if(s_minus.size()==0){
-      //minus exist
-      if(cnt_minus!=0){
-        auto it_plus=s_plus.rbegin();
-        ans=ans*mod_inv(min_minus)%MOD;
-        ans=ans*(*it_plus)%MOD;
-      }
-      else
-        ans=(MOD-rev_ans)%MOD;
-    }
-    else if(s_plus.size()==0){
-      //plus exist
-      if(cnt_minus!=k){
-        auto it_minus=s_minus.rbegin();
-        ans=ans*mod_inv(min_plus)%MOD;
-        ans=ans*(*it_minus)%MOD;
-      }
-      else
-        ans=(MOD-rev_ans)%MOD;
-    }
-
-    else{
+    //swap both
+    if(pok && mok){
       auto it_minus=s_minus.rbegin();
       auto it_plus=s_plus.rbegin();
 
@@ -159,7 +140,21 @@ int main(){
         ans=ans*(*it_plus)%MOD;
       }
     }
-
+    //swap minus to plus
+    else if(mok){
+      auto it_plus=s_plus.rbegin();
+      ans=ans*mod_inv(min_minus)%MOD;
+      ans=ans*(*it_plus)%MOD;
+    }
+    //swap plus to minus
+    else if(pok){
+      auto it_minus=s_minus.rbegin();
+      ans=ans*mod_inv(min_plus)%MOD;
+      ans=ans*(*it_minus)%MOD;
+    }
+    //no swap
+    else
+      ans=(MOD-rev_ans)%MOD;
   }
 
 

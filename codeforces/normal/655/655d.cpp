@@ -42,5 +42,36 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  vll a(n);
+  REP(i,n)cin>>a[i];
+
+
+  vll b=a;
+  sort(ALL(b));
+  vll c(n,1);
+
+  ll cnt=0;
+  ll sum=0;
+  REP(i,n){
+    if(c[i]==0)
+      continue;
+
+    sum+=b[i];
+
+
+
+    cnt++;
+    if(n/2<=cnt)
+      break;
+  }
+
+  ll ans=0;
+  REP(i,n)sum+=a[i];
+  ans-=sum;
+
+  cout<<ans<<endl;
+
 }
 
