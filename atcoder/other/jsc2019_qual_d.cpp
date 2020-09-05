@@ -38,51 +38,34 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-ll gcd(ll a, ll b){
-  if(b==0)
-    return a;
-  if(a<b)
-    return gcd(b,a);
+void solve(ll index, ll k){
 
-  return gcd(b, a%b);
+
 }
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll t;
-  cin>>t;
+  ll n;
+  cin>>n;
+  ll k=0;
+  while((1<<k)<n)
+    k++;
 
-  REP(i,t){
-    ll a,b,c,d;
-    cin>>a>>b>>c>>d;
-
-    bool ans;
-    if(a<b || d<b)
-      ans=false;
-    else if(b<=c)
-      ans=true;
-    else{
-    ll w=gcd(b,d);
-      if((a-b)/w==(a-c)/w)
-        ans=true;
-      else if((b-c)>=w+1)
-        ans=false;
-      else{
-        if((a-c)%w==0)
-          ans=true;
-        else
-          ans=false;
+  REP(i,n){
+    for(ll j=i+1; j<n; j++){
+      REP(g,k){
+        if((i&(1<<g))!=(j&(1<<g))){
+          if(j!=i+1)
+            cout<<" ";
+          cout<<g+1;
+          break;
+        }
       }
     }
-
-    if(ans)
-      yes;
-    else
-      no;
+    if(i!=n-1)
+      cout<<endl;
   }
-
 }
-
 
