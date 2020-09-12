@@ -42,5 +42,43 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n,k,q;
+  cin>>n>>k>>q;
+  vll a(n);
+  REP(i,n)cin>>a[i];
+
+  ll ans=LLINF;
+  REP(i,n){
+    ll m=a[i];
+    vll tmp,vec;
+    vec.push_back(m);
+
+    REP(j,n){
+      if(j==i)
+        continue;
+
+      if(a[j]<m){
+        sort(ALL(tmp));
+        REP(h,tmp.size()-k+1)
+          vec.push_back(tmp[h]);
+
+        tmp.clear();
+      }
+      else
+        tmp.push_back(a[j]);
+    }
+    //nokori
+    sort(ALL(tmp));
+    REP(h,tmp.size()-k+1)
+      vec.push_back(tmp[h]);
+
+    if(vec.size()<q)
+      continue;
+
+    sort(ALL(vec));
+    ans=min(ans,vec[q-1]-vec[0]);
+  }
+
+  cout<<ans<<endl;
 }
 
