@@ -38,77 +38,90 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+vvll edge(45,vll(2e5, -1));
+vll a(2e5);
+ll n,k;
+vvll s(2e5);
 
-ll forest_size=0;
-vll a(1e5);
-vll visited(1e5);
-vvll edge(1e5);
+ll jp(ll x){
+  if(edge[0][x]!=-1)
+    return edge[0][x];
 
-void la(ll i, vll& v){
-  if(visited[i])
-    return;
+  auto it=upper_bound(ALL(s[a[x]]),x);
+  ll next;
+  if(it==s[a[x]].end())
+    next=s[a[x]][0];
+  else
+    next=*it;
 
-  visited[i]=1;
-  v.push_back(a[i]);
-  for(auto e:edge[i]){
-    la(e,v);
+  next=(next+1)%n;
+  if(s[a[x]].size()==1){
+    if(x==n-1)
+      edge[0][x]=n;
+    else
+      edge[0][x]=next;
   }
+  else if(next<=x)
+    edge[0][x]=next;
+  else
+    edge[0][x]=jp(next);
 
-  return;
+  return edge[0][x];
 }
-
-
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n,m;
-  cin>>n>>m;
+  cin>>n>>k;
   REP(i,n)cin>>a[i];
-  vll x(m),y(m);
-  REP(i,m)cin>>x[i]>>y[i];
+  REP(i,n)s[a[i]].push_back(i);
 
-  REP(i,m){
-    edge[x[i]].push_back(y[i]);
-    edge[y[i]].push_back(x[i]);
+  REP(i,n)
+    jp(i);
+  edge[0][n]=0;
+
+  REP(i,44){
+    REP(j,n+1)
+      edge[i+1][j]=edge[i][edge[i][j]];
   }
 
-  ll cost=0;
-  vll p;
-  REP(i,n){
-    if(visited[i])
-      continue;
-
-    vll v;
-    la(i,v);
-    sort(ALL(v));
-
-    cost+=v[0];
-    for(ll i=1; i<ll(v.size()); i++)
-      p.push_back(v[i]);
-
-    forest_size++;
+  ll target=k-1;
+  ll now=0;
+  REP(i,45){
+    if((target>>i)&1)
+      now=edge[i][now];
   }
 
-  sort(ALL(p));
+  //create ans
+  set<ll> se;
+  vll ans;
+  for(ll i=now; i<n; i++){
+    ll p=se.size();
+    se.insert(a[i]);
 
-  if(n<(forest_size-1)*2){
-    cout<<"Impossible"<<endl;
-    return 0;
+    ll ne=se.size();
+    if(p==ne){
+      //pop vector
+      while(ans.size()!=0){
+        ll t=ans.back();
+        ans.pop_back();
+        se.erase(t);
+        if(t==a[i])
+          break;
+      }
+    }
+    else
+      ans.push_back(a[i]);
+
   }
-  if(forest_size==1){
-    cout<<0<<endl;
-    return 0;
+
+  REP(i,ans.size()){
+    if(i!=0)
+      cout<<" ";
+    cout<<ans[i];
   }
-
-  REP(i,forest_size-2)
-    cost+=p[i];
-
-
-  cout<<cost<<endl;
-
-
+  cout<<endl;
 
 }
 
