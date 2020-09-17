@@ -42,5 +42,26 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n,m;
+  cin>>n>>m;
+  vpl p(m);
+  REP(i,m)cin>>p[i].FI>>p[i].SE;
+
+  sort(ALL(p));
+
+  ll cnt=0;
+  ll e=LLINF;
+  ll ans=0;
+  REP(i,m){
+    if(e<=p[i].FI){
+      ans++;
+      e=p[i].SE;
+    }
+    else
+      e=min(e,p[i].SE);
+  }
+  ans++;
+
+  cout<<ans<<endl;
 }
 
