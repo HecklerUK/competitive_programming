@@ -44,31 +44,61 @@ int main(){
 
   ll n,m;
   cin>>n>>m;
-  vll a(n),x(m),y(m);
-  REP(i,n)cin>>a[i];
+  vll a(m),b(m),c(m);
+  REP(i,m)cin>>a[i]>>b[i]>>c[i];
 
-  vvll to(n),from(n);
+  vector<vpl> v(n);
   REP(i,m){
-    cin>>x[i]>>y[i];
-    x[i]--;
-    y[i]--;
-    to[x[i]].push_back(y[i]);
-    from[y[i]].push_back(x[i]);
+    a[i]--;
+    b[i]--;
+    if(a[i]==b[i])
+      continue;
+
+    v[a[i]].push_back(pll(c[i],b[i]));
   }
 
-
-  vll dp(n,-LLINF);
+  vvll dist(n,vll(n,LLINF));
   REP(i,n){
-    if(i!=0){
-      for(auto f:from[i])
-        dp[i]=max(dp[i],max(0LL,dp[f])+(a[i]-a[f]));
+    ll st=i;
+    priority_queue<pll,vpl,greater<pll>> que;
+    for(auto e:v[st]){
+      ll cost=e.FI;
+      ll next=e.SE;
+      if(cost<dist[st][next]){
+        que.push(pll(cost,next));
+        dist[st][next]=cost;
+      }
+    }
+
+    while(!que.empty()){
+      pll p=que.top();
+      que.pop();
+      ll now=p.SE;
+      if(dist[st][now]<p.FI)
+        continue;
+
+      for(auto e:v[now]){
+        ll cost=e.FI;
+        ll next=e.SE;
+        if(dist[st][now]+cost<dist[st][next]){
+          dist[st][next]=dist[st][now]+cost;
+          que.push(pll(dist[st][next],next));
+        }
+      }
+
     }
   }
 
-  ll ans=-LLINF;
-  REP(i,n)ans=max(ans,dp[i]);
+  REP(i,m){
+    if(c[i]<dist[a[i]][b[i]])
+      dist[a[i]][b[i]]=c[i];
+  }
 
-  cout<<ans<<endl;
-
+  REP(i,n){
+    if(dist[i][i]==LLINF)
+      cout<<-1<<endl;
+    else
+      cout<<dist[i][i]<<endl;
+  }
 }
 
