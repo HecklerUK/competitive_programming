@@ -44,22 +44,17 @@ int main(){
 
   ll n;
   cin>>n;
+  vll a(n),b(n);
+  REP(i,n)cin>>a[i];
+  REP(i,n)cin>>b[i];
 
-  ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
+  ll sum=0;
+  REP(i,n)sum+=a[i]*b[i];
 
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
+  if(sum==0)
+    yes;
+  else
+    no;
 
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-  }
-  cout<<ans<<endl;
 }
 

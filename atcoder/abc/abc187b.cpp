@@ -44,22 +44,23 @@ int main(){
 
   ll n;
   cin>>n;
+  vll x(n),y(n);
+  REP(i,n)cin>>x[i]>>y[i];
 
   ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
-
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
+  if(n==1){
+    cout<<ans<<endl;
+    return 0;
   }
+  for(ll i=0; i<n-1; i++){
+    for(ll j=i+1; j<n; j++){
+      ll dx=abs(x[i]-x[j]);
+      ll dy=abs(y[i]-y[j]);
+      if(dy<=dx)
+        ans++;
+    }
+  }
+
   cout<<ans<<endl;
 }
 

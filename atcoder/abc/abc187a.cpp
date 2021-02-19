@@ -38,28 +38,23 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+ll s(int a){
+  ll res=0;
+  while(a!=0){
+    res+=a%10;
+    a/=10;
+  }
+  return res;
+}
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
+  ll a,b;
+  cin>>a>>b;
 
-  ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
+  cout<<max(s(a),s(b))<<endl;
 
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-  }
-  cout<<ans<<endl;
 }
 

@@ -44,22 +44,32 @@ int main(){
 
   ll n;
   cin>>n;
+  vll a((1<<n));
+  REP(i,(1<<n))cin>>a[i];
 
-  ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
+  vll v;
+  REP(i,(1<<n))v.push_back(i);
 
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
+  for(ll i=1; i<n; i++){
+    vll q;
+    for(ll j=1; j<=(1<<(n-i)); j++){
+      if(a[v[2*j-2]]>a[v[2*j-1]])
+        q.push_back(v[2*j-2]);
+      else
+        q.push_back(v[2*j-1]);
+    }
 
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
+
+    sort(ALL(q));
+    swap(v,q);
   }
-  cout<<ans<<endl;
+
+  ll ans;
+  if(a[v[0]]>a[v[1]])
+    ans=v[1];
+  else
+    ans=v[0];
+
+  cout<<ans+1<<endl;
 }
 

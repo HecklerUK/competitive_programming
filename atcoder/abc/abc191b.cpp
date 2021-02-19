@@ -42,24 +42,29 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
+  ll n,x;
+  cin>>n>>x;
 
-  ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
+  vll a(n);
+  REP(i,n)cin>>a[i];
+
+  vll b;
+  REP(i,n){
+    if(a[i]==x)
       continue;
-
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
+    b.push_back(a[i]);
   }
-  cout<<ans<<endl;
+  if(b.size()==0){
+    cout<<endl;
+    return 0;
+  }
+
+  cout<<b[0];
+  REP(i,b.size()){
+    if(i==0)
+      continue;
+    cout<<" "<<b[i];
+  }
+  cout<<endl;
 }
 

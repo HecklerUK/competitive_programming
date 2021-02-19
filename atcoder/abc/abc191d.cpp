@@ -42,24 +42,29 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
+  ld x,y,r;
+  cin>>x>>y>>r;
+
+  ll s=ll(y+r);
+  ll g=ll(y-r);
 
   ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
+  for(ll i=s; i>=g; i--){
+    ld a=abs(i-y);
+    ld b=sqrt(r*r-a*a);
 
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
+    ll minx=x-b;
+    ll maxx=x+b;
+    if(b==0){
+      if(x-ll(x)==0)
+        ans++;
       continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
+    }
+    if(x-b<=0 || maxx*1.0-(x+b)==0)
+      minx--;
+    ans+=maxx-minx;
   }
+
   cout<<ans<<endl;
 }
 

@@ -42,24 +42,27 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
+  ll h,w;
+  cin>>h>>w;
+  vector<string> s(h);
+  REP(i,h)cin>>s[i];
 
   ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
+  REP(i,h-1){
+    REP(j,w-1){
+      ll cnt=0;
+      REP(g,2){
+      REP(f,2){
+        if(s[i+g][j+f]=='.')
+          cnt++;
+      }
+      }
 
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
+      if(cnt==1||cnt==3)
+        ans++;
+    }
   }
+
   cout<<ans<<endl;
 }
 

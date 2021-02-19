@@ -44,22 +44,27 @@ int main(){
 
   ll n;
   cin>>n;
+  vector<string> s(n);
+  REP(i,n)cin>>s[i];
 
-  ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
+  set<string> s1,s2;
+  REP(i,n){
+    if(s[i][0]=='!')
+      s2.insert(s[i]);
+    else
+      s1.insert(s[i]);
 
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
   }
-  cout<<ans<<endl;
+
+  for(auto a:s1){
+    string g="!"+a;
+      if(s2.count(g)){
+        cout<<a<<endl;
+        return 0;
+      }
+  }
+
+  cout<<"satisfiable"<<endl;
+
 }
 

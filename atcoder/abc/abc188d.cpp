@@ -42,24 +42,35 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
+  ll n,t;
+  cin>>n>>t;
+
+  vll a(n),b(n),c(n);
+  REP(i,n)cin>>a[i]>>b[i]>>c[i];
+
+  vll v;
+  REP(i,n){
+    v.push_back(a[i]);
+    b[i]++;
+    v.push_back(b[i]);
+  }
+
+  SORT_UNIQUE(v);
+  map<ll,ll> table;
+  ll v_l=v.size();
+  REP(i,v_l)table[v[i]]=i;
+
+  vll imos(v_l+3);
+  REP(i,n){
+    imos[table[a[i]]]+=c[i];
+    imos[table[b[i]]]-=c[i];
+  }
+
+  REP(i,v_l+2)imos[i+1]+=imos[i];
 
   ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
+  REP(i,v_l+2)ans+=imos[i]>t?t*(v[i+1]-v[i]):imos[i]*(v[i+1]-v[i]);
 
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-  }
   cout<<ans<<endl;
 }
 

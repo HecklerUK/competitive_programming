@@ -42,24 +42,12 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  ll n;
-  cin>>n;
+  ll v,t,s,d;
+  cin>>v>>t>>s>>d;
 
-  ll ans=0;
-  for(ll i=1; i*i<=2*n; i++){
-    if((2*n)%i!=0)
-      continue;
-
-    ll y=i;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-
-    y=2*n/i;
-    if(y==i)
-      continue;
-    if((2*n/y+1-y)%2==0)
-      ans++;
-  }
-  cout<<ans<<endl;
+  if(v*t<=d && d<=s*v)
+    no;
+  else
+    yes;
 }
 
