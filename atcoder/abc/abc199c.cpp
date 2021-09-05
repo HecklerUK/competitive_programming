@@ -58,5 +58,39 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  string s;
+  cin>>s;
+  ll q;
+  cin>>q;
+
+  vc<char> st(n),ed(n);
+  rep(i,n)st[i]=s[i];
+  rep(i,n)ed[i]=s[i+n];
+
+  rep(i,q){
+    ll t,a,b;
+    cin>>t>>a>>b;
+    a--;
+    b--;
+    if(a>b)
+      swap(a,b);
+    if(t==1){
+      if(b<n)
+        swap(st[a],st[b]);
+      else if(a<n && n<=b)
+        swap(st[a],ed[b-n]);
+      else
+        swap(ed[a-n],ed[b-n]);
+    }
+    else{
+      swap(st,ed);
+    }
+  }
+
+  rep(i,n)cout<<st[i];
+  rep(i,n)cout<<ed[i];
+  cout<<endl;
 }
 
