@@ -7,8 +7,8 @@
 #define rep(i,n) for(int i=0;i<(n);i++)
 #define rep1(i,n) for(int i=1;i<(n);i++)
 #define drep(i,n) for(int i=(n)-1;i>=0;i--)
-#define srep(i,n,s) for(int i=s;i<(n);i++)
-#define dsrep(i,n) for(int i=(n)-1;i>=s;i--)
+#define srep(i,n,s) for(int i=(s);i<(n);i++)
+#define dsrep(i,n,s) for(int i=(n)-1;i>=(s);i--)
 #define pb push_back
 #define eb emplace_back
 #define mp(a,b) make_pair(a,b)

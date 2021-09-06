@@ -8,7 +8,7 @@
 #define rep1(i,n) for(int i=1;i<(n);i++)
 #define drep(i,n) for(int i=(n)-1;i>=0;i--)
 #define srep(i,n,s) for(int i=s;i<(n);i++)
-#define dsrep(i,n) for(int i=(n)-1;i>=s;i--)
+#define dsrep(i,n,s) for(int i=(n)-1;i>=s;i--)
 #define pb push_back
 #define eb emplace_back
 #define mp(a,b) make_pair(a,b)
@@ -61,6 +61,25 @@ int main(){
 
   ll h,w,x,y;
   cin>>h>>w>>x>>y;
-  vs
+  x--;
+  y--;
+  vs s(h);
+  rep(i,h)cin>>s[i];
+
+  ll ans=1;
+  srep(i,h,y+1){
+    if(s[x][i]=='#')
+      break;
+    ans++;
+  }
+
+  dsrep(i,h,y-1){
+    if(s[x][i]=='#')
+      break;
+    ans++;
+  }
+
+
+
 }
 
