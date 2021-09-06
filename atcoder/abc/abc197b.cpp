@@ -59,5 +59,8 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll h,w,x,y;
+  cin>>h>>w>>x>>y;
+  vs
 }
 

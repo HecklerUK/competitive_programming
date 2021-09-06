@@ -32,7 +32,6 @@ using vld = vc<ld>;
 using pll = pc<ll>;
 using pld = pc<ld>;
 using vpl = vc<pll>;
-using vs = vc<string>;
 using vvll = vv<ll>;
 using vt = vc<T3>;
 
