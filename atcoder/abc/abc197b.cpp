@@ -67,19 +67,30 @@ int main(){
   rep(i,h)cin>>s[i];
 
   ll ans=1;
-  srep(i,h,y+1){
+  srep(i,w,y+1){
     if(s[x][i]=='#')
       break;
     ans++;
   }
 
-  dsrep(i,h,y-1){
+  drep(i,y){
     if(s[x][i]=='#')
       break;
     ans++;
   }
 
+  srep(i,h,x+1){
+    if(s[i][y]=='#')
+      break;
+    ans++;
+  }
 
+  drep(i,x){
+    if(s[i][y]=='#')
+      break;
+    ans++;
+  }
 
+  cout<<ans<<endl;
 }
 

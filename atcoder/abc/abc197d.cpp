@@ -58,5 +58,33 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  pll xy0,xyn;
+  cin>>xy0;
+  cin>>xyn;
+
+  ll xd=xyn.fi-xy0.fi;
+  ll yd=xyn.se-xy0.se;
+
+  ld pi=3.141592653589793;
+  ld fw=1-cos(2*pi/n);
+  pld fwv;
+  fwv.fi=fw/2.0*xd;
+  fwv.se=fw/2.0*yd;
+
+  ld ver=sin(2*pi/n);
+  pld verv;
+  verv.fi=ver/2.0*(xd*0+yd);
+  verv.se=ver/2.0*(-xd+yd*0);
+
+  pld ans;
+  ans.fi=xy0.fi+fwv.fi+verv.fi;
+  ans.se=xy0.se+fwv.se+verv.se;
+
+
+  cout<<Decimal;
+  cout<<ans.fi<<" "<<ans.se<<endl;
+
 }
 

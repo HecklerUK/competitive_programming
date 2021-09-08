@@ -58,5 +58,31 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+  vll a(n);
+  rep(i,n)cin>>a[i];
+
+  ll ans=LINF;
+  rep(bit,(1<<n)){
+    ll tmp=0;
+    vll v;
+    ll now=bit%2;
+    rep(i,n){
+      if((bit>>i)&1==now)
+        tmp|=a[i];
+      else{
+        v.push_back(tmp);
+        tmp=a[i];
+      }
+    }
+    v.push_back(tmp);
+
+    ll g=0;
+    rep(i,v.size())g^=v[i];
+    mins(ans,g);
+  }
+
+  cout<<ans<<endl;
 }
 
