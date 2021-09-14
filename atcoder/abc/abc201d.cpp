@@ -55,13 +55,45 @@ const int MOD = 1e9 + 7;
 const int dx[2] = {1, 0};
 const int dy[2] = {0, 1};
 
-ll MAX_H
+const ll MAX_H=2000;
+const ll MAX_W=2000;
 
 ll h,w;
 vv<char> a(MAX_H,vc<char>(MAX_W));
+vvll memo(MAX_H,vll(MAX_W,LINF));
 map<char,ll> m;
-ll dfs(ll x, ll y){
 
+ll dfs(ll x, ll y){
+  if(memo[y][x]!=LINF)
+    return memo[y][x];
+
+  rep(i,2){
+    ll ny=y+dy[i];
+    ll nx=x+dx[i];
+    if(h<=ny || w<=nx)
+      continue;
+
+    ll turn=ny+nx;
+
+    //takahashi
+    if(turn%2==1){
+      ll pt=dfs(nx,ny)-m[a[ny][nx]];
+      if(memo[y][x]==LINF)
+        memo[y][x]=pt;
+      else if(memo[y][x]>pt)
+        memo[y][x]=pt;
+    }
+    //aoki
+    else{
+      ll pt=dfs(nx,ny)+m[a[ny][nx]];
+      if(memo[y][x]==LINF)
+        memo[y][x]=pt;
+      else if(memo[y][x]<pt)
+        memo[y][x]=pt;
+    }
+  }
+
+  return memo[y][x];
 }
 
 int main(){
@@ -69,60 +101,19 @@ int main(){
   cin.tie(NULL);
 
   cin>>h>>w;
-
   rep(i,h)rep(j,w)cin>>a[i][j];
   m['+']=1;
   m['-']=-1;
 
+  memo[h-1][w-1]=0;
+  ll ans=dfs(0,0);
 
-
-    vvll memo(h,vll(w));
-  vvll pushed(h,vll(w));
-  queue<pll> que;
-  que.push(pll(0,0));
-  memo[0][0]=0;
-
-  while(!que.empty()){
-    pll now=que.front();
-    que.pop();
-
-    rep(i,2){
-      ll ny=now.fi+dy[i];
-      ll nx=now.se+dx[i];
-      if(h<=ny || w<=nx)
-        continue;
-
-      ll pt=memo[now.fi][now.se];
-      ll turn=ny+nx;
-
-      if(turn%2==1){
-        pt+=m[a[ny][nx]];
-        if(pushed[ny][nx]==0)
-          memo[ny][nx]=pt;
-        else if(memo[ny][nx]>pt)
-          memo[ny][nx]=pt;
-      }
-      else{
-        pt-=m[a[ny][nx]];
-        if(pushed[ny][nx]==0)
-          memo[ny][nx]=pt;
-        else if(memo[ny][nx]<pt)
-          memo[ny][nx]=pt;
-      }
-
-      if(pushed[ny][nx]!=0)
-        continue;
-      pushed[ny][nx]++;
-      que.push(pll(ny,nx));
-    }
-  }
-
-  if(memo[h-1][w-1]>0)
-    cout<<"Takahashi"<<endl;
-  else if(memo[h-1][w-1]==0)
+  if(ans>0)
+    cout<<"Aoki"<<endl;
+  else if(ans==0)
     cout<<"Draw"<<endl;
   else
-    cout<<"Aoki"<<endl;
+    cout<<"Takahashi"<<endl;
 
 }
 
