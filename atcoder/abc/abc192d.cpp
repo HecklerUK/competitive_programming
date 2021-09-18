@@ -97,8 +97,8 @@ int main(){
   else{
     ll h=0;
     rep(i,sz(x))maxs(h,ll(x[i]-'0'));
-    ll ok=h+1;
-    ll ng=LINF;
+    ll ok=2;
+    ll ng=m+1;
 
     while(ng-ok>1){
       ll mid=(ok+ng)/2;
@@ -106,7 +106,7 @@ int main(){
       else ng=mid;
     }
 
-    cout<<ok-h<<endl;
+    cout<<max(0LL,ok-h)<<endl;
   }
 
 
