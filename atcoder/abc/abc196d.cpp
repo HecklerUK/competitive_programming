@@ -55,54 +55,62 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-const ll MAX_X=16;
-const ll MAX_Y=16;
 const ll MAX_A=8;
 const ll MAX_B=16;
-ll memo[MAX_X][MAX_Y][MAX_A][MAX_B];
-
-
+ll memo[MAX_A+1][MAX_B+1][(1<<16)];
 ll h,w,a,b;
-ll dfs(ll x, ll y, ll an, ll bn){
-  ll res=0;
-  if(an<0 || bn<0 || w<x || h<y)
-    return 0;
 
-  if(memo[x][y][an][bn]!=-1)
-    return memo[x][y][an][bn];
-
-
-  ll tate=dfs(x+1,y+1,an,bn-1)+dfs(x,y+2,an,bn-1);
-  ll yoko=dfs(x+2,y,an,bn-1)+dfs(x+1,y+1,an,bn-1);
-  ll square=dfs(x+1,y,an-1,bn)+dfs(x,y+1,an-1,bn);
-  res=tate+yoko+square;
-  //cout<<x<<","<<y<<","<<s<<","<<an<<","<<bn<<":"<<tate<<","<<yoko<<","<<square<<endl;
-
-
-  memo[x][y][an][bn]=res;
-  return res;
+ll count64bit(ll v) {
+  ll count = (v & 0x5555555555555555) + ((v >> 1) & 0x5555555555555555);
+  count = (count & 0x3333333333333333) + ((count >> 2) & 0x3333333333333333);
+  count = (count & 0x0f0f0f0f0f0f0f0f) + ((count >> 4) & 0x0f0f0f0f0f0f0f0f);
+  count = (count & 0x00ff00ff00ff00ff) + ((count >> 8) & 0x00ff00ff00ff00ff);
+  count = (count & 0x0000ffff0000ffff) + ((count >> 16) & 0x0000ffff0000ffff);
+  return (ll)((count & 0x00000000ffffffff) + ((count >> 32) & 0x00000000ffffffff));
 }
+
+ll LSB64bit(ll v) {
+   if (v == 0) return -1;
+    v |= (v << 1);
+    v |= (v << 2);
+    v |= (v << 4);
+    v |= (v << 8);
+    v |= (v << 16);
+    v |= (v << 32);
+    ll res = 64 - count64bit(v);
+    return res;
+}
+
+ll dfs(ll an, ll bn, ll bit){
+  if(an<0 || bn<0)
+    return 0;
+  if(memo[an][bn][bit]!=-1)
+    return memo[an][bn][bit];
+  if(an==0&&bn==0){
+    if(count64bit(bit)==h*w)return memo[an][bn][bit]=1;
+    else return memo[an][bn][bit]=0;
+  }
+  if(count64bit(bit)>=h*w)return 0;
+
+
+  ll res=0;
+  ll t=LSB64bit(~bit);
+  if(t%w!=w-1)res+=dfs(an-1,bn,bit|(1<<t)|(1<<(t+1)));
+  if(t/w!=h-1)res+=dfs(an-1,bn,bit|(1<<t)|(1<<(t+w)));
+  res+=dfs(an,bn-1,bit|(1<<t));
+
+  return memo[an][bn][bit]=res;
+}
+
+
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
   cin>>h>>w>>a>>b;
-  h--;
-  w--;
-  rep(i,MAX_X)rep(j,MAX_Y)rep(q,MAX_A)rep(r,MAX_B)memo[i][j][q][r]=-1;
-  rep(q,MAX_A)rep(r,MAX_B)memo[w][h][q][r]=0;
-  memo[w][h][0][0][0]=1;
-  memo[w][h][1][0][1]=1;
-  memo[w][h][0][1][0]=1;
-
-  ll ans=0;
-  ans+=dfs(0,0,1,a,b);
-
-  rep(j,h+1){
-  rep(i,w+1)cout<<memo[i][j][1][1][0]<<",";
-  cout<<endl;
-  }
+  rep(i,MAX_A+1)rep(j,MAX_B+1)rep(k,(1<<16))memo[i][j][k]=-1;
+  ll ans=dfs(a,b,0);
 
   cout<<ans<<endl;
 }
