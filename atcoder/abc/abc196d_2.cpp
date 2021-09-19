@@ -55,32 +55,37 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-const ll MAX_X=16;
-const ll MAX_Y=16;
-const ll MAX_A=8;
-const ll MAX_B=16;
-ll memo[MAX_X][MAX_Y][MAX_A][MAX_B];
-
-
+const ll MAX_H=17;
+const ll MAX_W=17;
 ll h,w,a,b;
-ll dfs(ll x, ll y, ll an, ll bn){
-  ll res=0;
-  if(an<0 || bn<0 || w<x || h<y)
-    return 0;
-
-  if(memo[x][y][an][bn]!=-1)
-    return memo[x][y][an][bn];
+ll ans=0;
+vvll used(MAX_H,vll(MAX_W));
+vll dp((1<<16));
 
 
-  ll tate=dfs(x+1,y+1,an,bn-1)+dfs(x,y+2,an,bn-1);
-  ll yoko=dfs(x+2,y,an,bn-1)+dfs(x+1,y+1,an,bn-1);
-  ll square=dfs(x+1,y,an-1,bn)+dfs(x,y+1,an-1,bn);
-  res=tate+yoko+square;
-  //cout<<x<<","<<y<<","<<s<<","<<an<<","<<bn<<":"<<tate<<","<<yoko<<","<<square<<endl;
+void dfs(ll xy, ll n, ll bit){
+  ll x=xy%w;
+  ll y=xy/w;
+  if(x==w-1&&y==h-1&&n==0)
+    ans++;
+  if(w<=x||h<=y)
+    return;
 
+  if(used[y][x]==0){
+    if(used[y+1][x]==0&&y<h-1){
+      used[y+1][x]++;
+      dfs(xy+1,n-1);
+      used[y+1][x]--;
+    }
 
-  memo[x][y][an][bn]=res;
-  return res;
+    if(used[y][x+1]==0&&x<w-1){
+      used[y][x+1]++;
+      dfs(xy+1,n-1);
+      used[y][x+1]--;
+    }
+  }
+
+  dfs(xy+1,n);
 }
 
 int main(){
@@ -88,21 +93,7 @@ int main(){
   cin.tie(NULL);
 
   cin>>h>>w>>a>>b;
-  h--;
-  w--;
-  rep(i,MAX_X)rep(j,MAX_Y)rep(q,MAX_A)rep(r,MAX_B)memo[i][j][q][r]=-1;
-  rep(q,MAX_A)rep(r,MAX_B)memo[w][h][q][r]=0;
-  memo[w][h][0][0][0]=1;
-  memo[w][h][1][0][1]=1;
-  memo[w][h][0][1][0]=1;
-
-  ll ans=0;
-  ans+=dfs(0,0,1,a,b);
-
-  rep(j,h+1){
-  rep(i,w+1)cout<<memo[i][j][1][1][0]<<",";
-  cout<<endl;
-  }
+  dfs(0,a);
 
   cout<<ans<<endl;
 }
