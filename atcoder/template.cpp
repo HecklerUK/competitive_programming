@@ -46,7 +46,7 @@ template<typename T>bool mins(T& x,const T&y){if(x>y){x=y;return true;}else retu
 template<typename T>bool maxs(T& x,const T&y){if(x<y){x=y;return true;}else return false;}
 template<typename T>ll suma(const vc<T>&a){ll res(0);for(auto&&x:a)res+=x;return res;}
 // template<typename T>void uni(vc<T>& a){sort(all(a));a.erase(unique(rng(a)),a.end());}
-template<typename T>void uni(T& a){sort(all(a));a.erase(unique(rng(a)),a.end());}
+template<typename T>void uni(T& a){sort(all(a));a.erase(unique(all(a)),a.end());}
 
 const int INF = 1001001001;
 const ll LINF = 1LL << 50;
