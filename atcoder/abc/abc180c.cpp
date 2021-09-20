@@ -70,8 +70,7 @@ int main(){
     }
   }
 
-
   uni(ans);
-  cout<<ans<<endl;
+  rep(i,sz(ans))cout<<ans[i]<<endl;
 }
 
