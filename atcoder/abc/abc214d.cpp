@@ -55,74 +55,66 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-const ll MAX_N=2e5;
-vll memo(MAX_N,-1);
-vll have_v(MAX_N,-1);
-vll parent(MAX_N,-1);
-vvll edge(MAX_N);
-vc<map<ll,ll>> value(MAX_N);
-ll n;
-
-ll dfs(ll v, ll pre){
-  parent[v]=pre;
-
-  ll res=0;
-  ll g=0;
-  for(auto e:edge[v]){
-    if(e==pre)
-      continue;
-    res+=dfs(e,v);
-    g+=have_v[e];
+struct UnionFind {
+  vll d;
+  UnionFind(ll n=0): d(n,-1) {}
+  ll find(ll x) {
+    if (d[x] < 0) return x;
+    return d[x] = find(d[x]);
   }
-  memo[v]=g+res;
-  have_v[v]=g+1;
-  return memo[v];
-}
 
-void dfs2(ll v, ll pre){
-  for(auto e:edge[v]){
-    if(e==pre)
-      continue;
-
-    ll res=0;
-    if(pre!=-1)
-      res+=value[pre][v];
-
-    res+=memo[v]-memo[e]-have_v[e];
-    res+=n-have_v[e];
-    value[v][e]=res;
-    cout<<v<<":"<<e<<":"<<res<<endl;
-    dfs(e,v);
+  bool unite(ll x, ll y) {
+    x = find(x); y = find(y);
+    if (x == y) return false;
+    if (d[x] > d[y]) swap(x,y);
+    d[x] += d[y];
+    d[y] = x;
+    return true;
   }
-  return;
-}
+
+  bool same(ll x, ll y) {
+    return find(x) == find(y);
+  }
+
+  ll size(ll x) {
+    return -d[find(x)];
+  }
+};
+
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
   cin>>n;
+  vvll edge(n);
+  vvll weight(n-1,vll(3));
   rep(i,n-1){
-    ll u,v;
-    cin>>u>>v;
+    ll u,v,w;
+    cin>>u>>v>>w;
     u--;
     v--;
 
     edge[u].push_back(v);
     edge[v].push_back(u);
+    weight[i]={w,u,v};
   }
 
-  dfs(0,-1);
-  dfs2(0,-1);
+  sort(all(weight));
+  UnionFind uf(n);
+  ll ans=0;
 
+  rep(i,n-1){
+    ll w=weight[i][0];
+    ll u=weight[i][1];
+    ll v=weight[i][2];
 
-  rep(i,n){
-    if(parent[i]==-1)
-      cout<<memo[i]<<endl;
-    else
-      cout<<value[parent[i]][i]<<endl;
+    ans+=uf.size(u)*uf.size(v)*w;
+    uf.unite(u,v);
   }
 
 
+  cout<<ans<<endl;
 }
 
