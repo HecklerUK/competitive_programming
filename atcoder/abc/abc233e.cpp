@@ -59,5 +59,32 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  string x;
+  cin>>x;
+  reverse(all(x));
+
+  ll sum=0;
+  ll n=x.size();
+  rep(i,n)sum+=x[i]-'0';
+
+  vll ans(n+1);
+  ll next=0;
+  rep(i,n){
+    ans[i]=(sum+next)%10;
+    next=(sum+next)/10;
+    sum-=x[i]-'0';
+  }
+  ans[n]=next;
+
+  bool flag=true;
+  drep(i,n+1){
+    if(ans[i]==0 && flag)
+      continue;
+
+    flag=false;
+    cout<<ans[i];
+  }
+
+  cout<<endl;
 }
 
