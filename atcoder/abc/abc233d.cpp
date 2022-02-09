@@ -61,5 +61,20 @@ int main(){
 
   ll n,k;
   cin>>n>>k;
+
+  vll a(n);
+  rep(i,n)cin>>a[i];
+
+  vll rem(n+1);
+  rep(i,n)rem[i+1]=rem[i]+a[i];
+
+  map<ll,ll> m;
+  ll ans=0;
+  rep(r,n){
+    m[rem[r]]+=1;
+    ans+=m[rem[r+1]-k];
+  }
+
+  cout<<ans<<endl;
 }
 
