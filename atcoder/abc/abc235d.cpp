@@ -55,62 +55,59 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
-const ll MAX_N=1e6+10;
-ll a;
-bool used[MAX_N];
+const ll MAX_N=1e7+10;
+ll a,n;
+vll used(MAX_N,-1);
 
-ll dfs(ll t){
-  if(t==1){
-    return 0;
-  }
 
+void bfs(){
   queue<ll> que;
-  if(t%a==0 && !used[t/a]){
-    used[t/a]=true;
-    que.push(t/a);
-  }
+  que.push(1);
+  used[1]=0;
 
-  if(t>=10){
-    ll d=t,rank=1;
-    while(true){
-      d/=10;
-      if(d==0)
-        break;
-      rank*=10;
-    }
-    ll next=t%rank*10+t/rank;
-    if(!used[next] && t==next/10+next%10*rank){
-      used[next]=true;
-      que.push(next);
-    }
-  }
-
-  ll res=LINF;
   while(!que.empty()){
-    ll next=que.front();
+    ll t=que.front();
     que.pop();
 
-    ll h=dfs(next);
-    mins(res,h);
-  }
-  if(res!=LINF)
-    res++;
-  
-  return res;
-}
+    if(t==n)
+      break;
 
+    ll value=used[t]+1;
+    ll next=t*a;
+    if(next<=MAX_N){
+      if(used[next]==-1){
+        used[next]=value;
+        que.push(next);
+      }
+    }
+
+    if(t>=10 && t%10!=0){
+      ll d=t,rank=1;
+      while(true){
+        d/=10;
+        if(d==0)
+          break;
+        rank*=10;
+      }
+      next=t/10+t%10*rank;
+      if(next<=MAX_N){
+        if(used[next]==-1){
+          used[next]=value;
+          que.push(next);
+        }
+      }
+    }
+  }
+
+}
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  ll n;
   cin>>a>>n;
 
-  rep(i,MAX_N)used[i]=false;
-
-  ll ans=dfs(n);
-  if(ans==LINF)
-    ans=-1;
+  bfs();
+  ll ans=used[n];
   cout<<ans<<endl;
 }
 
