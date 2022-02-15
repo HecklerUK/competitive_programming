@@ -55,9 +55,40 @@ const int MOD = 1e9 + 7;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
 
+
+
+ll solve(ll n){
+  ll rn=sqrt(n);
+  ll ans=0;
+  //left side
+  for(ll i=1; i<=rn; i++)
+    ans+=n/i;
+
+  //cout<<ans<<endl;
+
+  //right side
+  ll cnt=0;
+  for(ll i=1;i<=rn; i++){
+    ll num=n-n/(i+1);
+    ans+=i*(num-cnt);
+
+    cnt=num;
+  }
+
+  if(n/rn==rn||rn*rn==n)
+    ans-=rn;
+  
+  return ans;
+}
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
+  ll n;
+  cin>>n;
+
+  ll ans=solve(n);
+  cout<<ans<<endl;
 
 }
 
