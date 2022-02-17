@@ -60,45 +60,21 @@ int main(){
   cin.tie(NULL);
   ll n,d;
   cin>>n>>d;
-  vpl l(n),r(n);
+  vpl rl(n);
   vector<bool> exist(n,true);
 
-  rep(i,n)cin>>l[i].fi>>r[i].fi;
-  rep(i,n)l[i].se=i;
-  rep(i,n)r[i].se=i;
-  sort(all(l));
-  sort(all(r));
+  rep(i,n)cin>>rl[i].se>>rl[i].fi;
+  sort(all(rl));
 
   ll ans=0;
-  ll now=r[0].fi;
-  ll li=0;
-  rep(ri,n){
-    if(!exist[r[ri].se])
-      continue;
-    if(now+d<=r[ri].fi){
-      //srep(j,n,li){
-      //  if(!exist[l[j].se])
-      //    continue;
-      //  if(now+d<=l[j].fi){
-      //    li=j;
-      //    break;
-      //  }
-      //  exist[l[j].se]=false;
-      //}
-
-      //srep(k,n,ri){
-      //  if(exist[r[k].se]){
-      //    now=r[k].fi;
-      //    ans++;
-      //    break;
-      //  }
-      //}
-
+  ll now=-LINF;
+  rep(i,n){
+    if(now+d<=rl[i].se){
+      ans++;
+      now=rl[i].fi;
     }
-    exist[r[ri].se]=false;
   }
 
-  ans++;
   cout<<ans<<endl;
 }
 
