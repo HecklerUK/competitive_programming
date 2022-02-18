@@ -91,38 +91,29 @@ int main(){
   ll n,m;
   cin>>n>>m;
 
-  vpl edge(m);
+  vvll edge(n);
   rep(i,m){
     ll a,b;
     cin >> a >> b;
     a--;
     b--;
-    if (a > b)
-      swap(a, b);
-    edge[i].fi = a;
-    edge[i].se = b;
+    edge[a].push_back(b);
   }
 
-  sort(all(edge),greater<pll>());
   UnionFind uf(n);
   ll cnt_e=0;
   vll ans(n);
-  dsrep(i,n,1){
-    ans[i-1]=ans[i]+1;
-    srep(j,m,cnt_e){
-      if (edge[j].fi < i) {
-        cnt_e = j;
-        break;
-      }
-
-      if (!uf.same(edge[j].fi, edge[j].se)){
-        uf.merge(edge[j].fi, edge[j].se);
-        ans[i-1]--;
+  drep(i,n-1){
+    ans[i]=ans[i+1]+1;
+    ll h=i+1;
+    for(auto e:edge[h]){
+      if (!uf.same(e,h)){
+        uf.merge(e,h);
+        ans[i]--;
       }
     }
   }
 
   rep(i,n)cout<<ans[i]<<endl;
-
 }
 
