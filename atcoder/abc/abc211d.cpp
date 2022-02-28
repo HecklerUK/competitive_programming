@@ -59,5 +59,43 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n,m;
+  cin>>n>>m;
+  vvll edge(n);
+  rep(i,m){
+    ll a,b;
+    cin>>a>>b;
+    a--;
+    b--;
+    edge[a].push_back(b);
+    edge[b].push_back(a);
+  }
+
+  vll c(n,0),d(n,-1);
+  priority_queue<pll,vpl,greater<pll>> que;
+  que.push(pll(0,0));
+  c[0]=1;
+  d[0]=0;
+  while(!que.empty()){
+    pll t=que.top();
+    que.pop();
+    ll dist=t.fi;
+    ll v=t.se;
+    ll cnt=c[v];
+
+    for(auto e:edge[v]){
+      if(d[e]==-1){
+        d[e]=dist+1;
+        que.push(pll(d[e],e));
+      }
+      else if(d[e]==dist+1)
+        ;
+      else
+        continue;
+      c[e]=(c[e]+cnt)%MOD;
+    }
+  }
+
+  cout<<c[n-1]<<endl;
 }
 
