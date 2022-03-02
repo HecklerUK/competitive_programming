@@ -51,13 +51,45 @@ template<typename T>void uni(T& a){sort(all(a));a.erase(unique(all(a)),a.end());
 const int INF = 1001001001;
 const ll LINF = 1LL << 50;
 const double eps = 1e-10;
-const int MOD = 1e9 + 7;
+const int MOD = 998244353;
 const int dx[4] = {-1, 0, 1, 0};
 const int dy[4] = {0, -1, 0, 1};
+
+ll gyakugen(ll a){
+  ll p=MOD-2;
+  ll res=1;
+  ll k=a;
+  while(p!=0){
+    if(p&1)
+      res=res*k%MOD;
+    k=k*k%MOD;
+    p/=2;
+  }
+
+  return res;
+}
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  ll n;
+  cin>>n;
+
+  ll ans=0;
+  ll k=1;
+  ll gyaku2=gyakugen(2);
+  while(true){
+    if(n/10>=k){
+      ans=(ans+((1+k*10-k)%MOD)*((k*10-k)%MOD)%MOD*gyaku2%MOD)%MOD;
+      k*=10;
+    }
+    else{
+      ans=(ans+((2+n-k)%MOD)*((n-k+1)%MOD)%MOD*gyaku2%MOD)%MOD;
+      break;
+    }
+  }
+
+  cout<<ans<<endl;
 }
 
