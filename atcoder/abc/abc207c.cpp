@@ -32,6 +32,7 @@ using vld = vc<ld>;
 using pll = pc<ll>;
 using pld = pc<ld>;
 using vpl = vc<pll>;
+using vpd = vc<pld>;
 using vs = vc<string>;
 using vvll = vv<ll>;
 using vt = vc<T3>;
@@ -61,14 +62,14 @@ int main(){
 
   ll n;
   cin>>n;
-  vpl lr(n);
+  vpd lr(n);
   rep(i,n){
     ll t;
     cin>>t;
-    ll l,r;
+    ld l,r;
     cin>>l>>r;
-    if(t==3 || t==4)l++;
-    if(t==1 || t==3)r++;
+    if(t==3 || t==4)l+=0.5;
+    if(t==2 || t==4)r-=0.5;
     lr[i].fi=l;
     lr[i].se=r;
   }
@@ -77,7 +78,7 @@ int main(){
   ll ans=0;
   rep(i,n){
     for(ll j=i+1; j<n; j++){
-      if(lr[j].fi<lr[i].se)
+      if(lr[j].fi<=lr[i].se)
       ans++;
     }
   }
